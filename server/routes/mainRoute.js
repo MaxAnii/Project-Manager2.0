@@ -1,13 +1,11 @@
 const express = require("express");
 const router = express.Router();
-const pool = require("../config/db");
 
-router.get('/',async(req,res)=>{
-   const data = await pool.query('SELECT * FROM admin ')
-   res.json(data.rows);
+// const addNewUser = require('../controllers/SignUpPage')
 
-})
+// router.post('/signUp/:type',addNewUser)
+const checkUserExist = require("../controllers/SignUpPage")
 
-
+router.get('/signUp/:type',checkUserExist)
 
 module.exports = router;
