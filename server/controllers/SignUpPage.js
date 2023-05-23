@@ -13,17 +13,27 @@ const pool = require("../config/db");
    }
 }
 
- const checkUserExist =async(req,res)=>{
+ const checkUserDetailsAlreadyExist =async(req,res)=>{
    
    
      const {type} = req.params;
-     console.log(type)
+    
         const data = await pool.query('SELECT * FROM admin')
         res.json(data.rows);
      
 }
 
+const login =async(req,res)=>{
+   const {collegeCode,email,password,designation} = req.params;
+
+   if(designation=== 'College Admin'){
+      const data = await pool.query('SELECT * FROM admin WHERE "collegeCode"=$1 AND "email"=$2 AND "password"=$3',[
+         collegeCode,email,password
+      ]);
+      res.json(data.rows);
+   
+   }
+}
 
 
-
-module.exports = {newUserSignUp,checkUserExist}
+module.exports = {newUserSignUp,checkUserDetailsAlreadyExist,login}

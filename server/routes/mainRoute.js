@@ -3,13 +3,15 @@ const router = express.Router();
 
 
 // const loginSignupRoute = require('./loginSignupRoute')
-const {checkUserExist,newUserSignUp} = require('../controllers/SignUpPage')
+// app.use('/signUp/:type',loginSignupRoute )
+const {checkUserDetailsAlreadyExist,newUserSignUp,login} = require('../controllers/SignUpPage')
  const addMember = require('../controllers/addNewMember')
 const getDashBoardInformation = require('../controllers/getData')
 
-router.get('/signUp/',checkUserExist)
+
+router.get('/signUp/',checkUserDetailsAlreadyExist)
 router.post('/signUp',newUserSignUp)
-// app.use('/signUp/:type',loginSignupRoute )
+router.get('/login/:collegeCode/:email/:password/:designation',login)
 router.post('/addNewMember/:type',addMember)
 router.get('/getInformationDashBoard/:type/:collegeCode',getDashBoardInformation)
 module.exports = router;

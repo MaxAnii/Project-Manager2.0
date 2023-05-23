@@ -1,7 +1,7 @@
-// import React, { useState } from 'react';
-// import { useNavigate } from "react-router-dom";
+import React, { useState } from 'react';
+import { useNavigate } from "react-router-dom";
 
-import { useState } from "react"
+
 
 
 const LoginForm = () => {
@@ -10,7 +10,7 @@ const LoginForm = () => {
 // const {info} = useAuth();
 // const userInformation = GolobalContext()
 
-//   const navigate = useNavigate()
+  const navigate = useNavigate()
 
   const[loginInfo,setLoginInfo]=useState({
     collegeCode:"",
@@ -24,38 +24,34 @@ const LoginForm = () => {
   
   
   
-//   const login=async(e)=>{
-//  setError("")
-// e.preventDefault();
+  const login=async(e)=>{
+    e.preventDefault();
+ setError("")
 
 
-//   const response =await fetch(`http://localhost:5000/login/${loginInfo.collegeCode}/${loginInfo.email}/${loginInfo.password}/${loginInfo.desgination}`,  {
-//     withCredentials: true
-//   })
+  const response =await fetch(`http://localhost:5000/login/${loginInfo.collegeCode}/${loginInfo.email}/${loginInfo.password}/${loginInfo.desgination}`)
 
-//   const data = await response.json()
+  const data = await response.json()
+console.log(data)
 
-
-//   if(data.length !== 0){
-//      info.auth=true
-//      localStorage.setItem("JToken", data.JToken);
-//   localStorage.setItem('auth',true)
-//   userInformation.setdata(data)
-//     if(loginInfo.desgination === 'College Admin')
-//    navigate(`/home/${data.collegecode}/${data.id}`,{state:{id:"ansar"
-
-//    }})
-//   else if(loginInfo.desgination === "HOD")
-//   navigate(`/hodhome/${data.id}/${data.dname}/${data.collegecode}`)
-//   else if (loginInfo.desgination === "Professor")
-//   navigate(`/profhome/${data.profid}/${data.cc}/${data.dname}`)
-//   else
-//   navigate(`/StudentHome/${data.usn}/${data.collegecode}/${data.dname}`)
-//   }
-//   else{
-// setError("Details Not Exist")
-//   }
-// }
+  if(data.length !== 0){
+  //    info.auth=true
+  //    localStorage.setItem("JToken", data.JToken);
+  // localStorage.setItem('auth',true)
+  // userInformation.setdata(data)
+    if(loginInfo.desgination === 'College Admin')
+   navigate(`/AdminHome/${data[0].id}/${data[0].collegeCode}`)
+  // else if(loginInfo.desgination === "HOD")
+  // navigate(`/hodhome/${data.id}/${data.dname}/${data.collegecode}`)
+  // else if (loginInfo.desgination === "Professor")
+  // navigate(`/profhome/${data.profid}/${data.cc}/${data.dname}`)
+  // else
+  // navigate(`/StudentHome/${data.usn}/${data.collegecode}/${data.dname}`)
+  }
+  else{
+setError("Details Not Exist")
+  }
+}
 
 
   return (
@@ -71,7 +67,7 @@ const LoginForm = () => {
 
     <div className='form'>
     <div style={{color:"red"}}><h3>{error}</h3></div>
-    <form >
+    <form onSubmit={login}>
           <div className="contact-box  "  >
             <div className="mb-3 ">
                 <label className="form-label">College Code</label>
