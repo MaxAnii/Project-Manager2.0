@@ -25,14 +25,25 @@ const pool = require("../config/db");
 
 const login =async(req,res)=>{
    const {collegeCode,email,password,designation} = req.params;
-
+   let data
    if(designation=== 'College Admin'){
-      const data = await pool.query('SELECT * FROM admin WHERE "collegeCode"=$1 AND "email"=$2 AND "password"=$3',[
+    data = await pool.query('SELECT * FROM admin WHERE "collegeCode"=$1 AND "email"=$2 AND "password"=$3',[
          collegeCode,email,password
       ]);
-      res.json(data.rows);
-   
    }
+   else if(designation=== 'HOD'){
+      data = await pool.query('SELECT * FROM department WHERE "collegeCode"=$1 AND "email"=$2 AND "password"=$3',[
+           collegeCode,email,password
+        ]);
+     }
+     else if(designation=== 'Professor'){
+      data = await pool.query('SELECT * FROM mentor WHERE "collegeCode"=$1 AND "email"=$2 AND "password"=$3',[
+           collegeCode,email,password
+        ]);
+     }
+
+   res.json(data.rows);
+
 }
 
 

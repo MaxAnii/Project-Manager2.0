@@ -53,7 +53,7 @@ e.preventDefault();
     body: JSON.stringify(newHodDetails),
   });
 const data = await response.json();
-console.log(data)
+
   setnewHodDetails({...newHodDetails,
     collegeCode:param.cc,
     dname:"",
@@ -69,7 +69,7 @@ console.log(data)
 }
 
 const seeDetails=(dname,cc)=>{
-   navigate(`/home/${cc}/${param.id}/hoddetail/${dname}`)
+   navigate(`/AdminHome/${param.id}/${param.collegeCode}/departmentInfo/${dname}`)
 }
 
   return (<>
@@ -138,7 +138,7 @@ const seeDetails=(dname,cc)=>{
 {/* <td scope='col'><UpdateInfo id={elem.hodid} name={elem.name}
   department={elem.dname} email={elem.email} desgination="College Admin" MainId={elem.id}
 /></td> */}
-      <td scope='col'><button  className="btn btn-dark mb-3" onClick={()=> seeDetails(elem.dname,elem.collegecode)  }>See Details</button></td>
+      <td scope='col'><button  className="btn btn-dark mb-3" onClick={()=> seeDetails(elem.dname)  }>See Details</button></td>
     </tr>
   )
 })}

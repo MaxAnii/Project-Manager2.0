@@ -13,5 +13,5 @@ router.get('/signUp/',checkUserDetailsAlreadyExist)
 router.post('/signUp',newUserSignUp)
 router.get('/login/:collegeCode/:email/:password/:designation',login)
 router.post('/addNewMember/:type',addMember)
-router.get('/getInformationDashBoard/:type/:collegeCode',getDashBoardInformation)
+router.get('/getInformationDashBoard/:type/:collegeCode/:dname?',getDashBoardInformation)
 module.exports = router;
