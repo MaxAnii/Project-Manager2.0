@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
-// import {v4 as uuid } from 'uuid'
+import {v4 as uuid } from 'uuid'
 // import useAuth from '../hooks/useAuth';
-// import './start.css'
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
 const SignUp = () => {
 //   localStorage.removeItem('auth')
 //   localStorage.removeItem('JToken')
@@ -11,12 +11,12 @@ const SignUp = () => {
 
 
 
-//   const navigate = useNavigate();
+ const navigate = useNavigate();
 
   // to get userInfo 
   const [userInfo,setUserInfo]=useState({
    
-    id:"",
+    id:uuid().slice(0,20),
     name:"",
     collegeName:"",
     collegeCode:"",
@@ -29,7 +29,6 @@ const SignUp = () => {
 
   const [condition,setCondition] = useState({
     password:"",
-  
   })
 const [errorMessage,setErrorMessage] = useState('')
 const [show,setShow] = useState(false)
@@ -67,6 +66,7 @@ useEffect(()=>{
   const register=async(e)=>{
     e.preventDefault()
     setErrorMessage("")
+
 if(userInfo.password.length < 8){
 setErrorMessage("password should have 8 characters")
 }
@@ -76,28 +76,28 @@ setErrorMessage("password is not matching");
 
 else{
 
-//  const response =  await fetch("http://localhost:5000", {
-//   withCredentials: true,
-//     method: "POST",
-//     headers: {
-//       Accept: "application/json",
-//       "Content-Type": "application/json",
-//     },
-//     body: JSON.stringify(userInfo),
-//   });
-//   const data = await response.json()
+ const response =  await fetch("http://localhost:5000/signUp", {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(userInfo),
+  });
+  const data = await response.json()
 
-//   if(data.length !==0)
-//  {
-//   info.auth = true
-//   localStorage.setItem('auth',true);
-//   localStorage.setItem('JToken',data.JToken)
 
-//   if(userInfo.desgination === 'College Admin')
-//   navigate(`/home/${userInfo.collegeCode}/${userInfo.userid}`)
+  if(data.length !==0)
+ {
+  // info.auth = true
+  // localStorage.setItem('auth',true);
+  // localStorage.setItem('JToken',data.JToken)
+
+  if(userInfo.desgination === 'College Admin')
+  navigate(`/AdminHome/${userInfo.id}/${userInfo.collegeCode}`)
 // else
 // navigate(`/studenthome/${userInfo.userid}/${userInfo.collegeCode}/${userInfo.dname}`)
-// }
+}
 
 
 }  
@@ -108,10 +108,10 @@ else{
    <>
 
 
-        <div className='form signUp'  >
+        <div className='form signUp'>
     <form onSubmit={register}>
   
-          <div className="contact-box  "  >
+          <div className="contact-box">
   <div className="mb-3 ">
             <label  className="form-label">Desgination</label>
             <select className="form-select" value={userInfo.desgination} onChange={e=>{setUserInfo({...userInfo,desgination:e.target.value})}} required>
@@ -121,10 +121,10 @@ else{
 </select>
 </div>
           <div className="mb-3 ">
-                <label className="form-label">User Name</label>
+               { show ? <><label className="form-label">User Name</label>
                 <input type="name" className="form-control required"  placeholder="Enter Your Name"  required
                   value={userInfo.name} onChange={e=>{setUserInfo({...userInfo,name:e.target.value})}}
-                />
+                /> </>:""}
               </div>
               <div className="mb-3 ">
                 <label className="form-label">College Name</label>
@@ -138,15 +138,15 @@ else{
                   value={userInfo.collegeCode} onChange={e=>{setUserInfo({...userInfo,collegeCode:e.target.value})}}
                 />
               </div>
-             
+              { show ?  
+              <>
               <div className="mb-3 ">
-                <label className="form-label">User Id</label>
-                <input type="name" className="form-control required"  placeholder="Enter Your Id"  required
+                <label className="form-label">University Seat Number</label>
+                <input type="name" className="form-control required"  placeholder="Enter Your USN"  required
                   value={userInfo.id} onChange={e=>{setUserInfo({...userInfo,id:e.target.value})}}
                 />
               </div>
-              { show ?  
-              <> <div className="mb-3 ">
+              <div className="mb-3 ">
             <label  className="form-label">Department</label>
             <select className="form-select" 
           value={userInfo.dname} onChange={e=>{setUserInfo({...userInfo,dname:e.target.value})}} required>

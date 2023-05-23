@@ -1,0 +1,94 @@
+
+.navbar-brand{
+    font-weight: bolder;
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: xx-large;
+    color: whitesmoke;
+}
+
+.navLink {
+ text-decoration: none;
+ color:white;
+ margin: 10px;
+}
+.navLink:hover{
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+   color:grey ;
+}
+
+.container-box{
+    justify-content: center;
+  padding-top:5% ;
+}
+.background{
+   background-color:#DDE6ED;
+width:100%;
+}
+
+table {
+    background-color: #ebe6e680;
+    border-collapse: collapse;
+    width: 100%;
+}
+  
+th, td {
+    text-align: left;
+    padding: 8px;
+}
+  
+tr:nth-child(even) {
+    background-color:  #ebe6e6;
+}
+.projectForm{
+    height: 80vh;
+    background-color: #b8b4b480;
+    padding: 10%;
+}
+.info{
+    border-radius: 3%;
+    padding: 1%;
+    text-align: center;
+    color: #ebe6e6;
+    background-color: #232931;
+}
+.info a{
+    color: white;
+    text-decoration: none;
+}
+.main{
+    height: 120vh;
+
+    background-image:linear-gradient(180deg,#F9F9F9,#2D4059) ;
+    justify-content: center;
+}
+.rounded{
+
+height: 25vh;
+aspect-ratio: 2/3;
+
+}
+.chlid1{
+    padding-top: 8vh;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
+.info1{
+padding: 10%;
+font-size: large;
+   
+}
+.child2{
+    padding: 30px;
+    text-align: center;
+}
+.container1{
+    background-color: #ebe6e6;
+    margin: 5vh 15vw;
+    border: brown solid 3px;
+    border-radius: 3%;
+    box-shadow: 12px 12px 2px 1px rgba(0, 0, 255, .2);
+}
+.infoBtn{
+background-color:rebeccapurple;
+}
