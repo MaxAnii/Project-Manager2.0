@@ -72,9 +72,9 @@ const setstatus1=async()=>{
   getProject()
 }
  
-  useEffect(()=>{
-    setstatus1()
-  },[projectstatus1.pid])
+  // useEffect(()=>{
+  //   setstatus1()
+  // },[projectstatus1.pid])
   
 
 // finazile
@@ -106,32 +106,9 @@ const FinalizeProject=async()=>{
   })
   getProject()
 }
-useEffect(()=>{
-  FinalizeProject  ()
-},[projectFinalize.pid])
-
-
-console.log(param)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// useEffect(()=>{
+//   FinalizeProject  ()
+// },[projectFinalize.pid])
 
 
 
@@ -145,9 +122,9 @@ console.log(param)
   
   <div className='background'>
   {/* <Title collegecode= {param.cc}></Title> */}
-  <div className='container'>
+  <div className='container-content'>
 
-  <ul className=' row g-3 container'  type='none'>
+  <ul className=' row g-3 container-box'  type='none'>
   <li className='col-auto' ><button  className="btn btn-dark mb-3" onClick={()=>setCondition({
   thead:"New request",
   status:null,
@@ -180,8 +157,6 @@ console.log(param)
 
   </div>
   </div>
- 
-
   <table className="table">
     <thead>
       <tr>
@@ -198,8 +173,7 @@ console.log(param)
         </>:<th scope="col">{condition.thead}</th>}
       </tr>
     </thead>
-    <tbody>
-     
+    <tbody> 
     {project.map(elem=>{
 if(elem.status === condition.status && elem.finalize === condition.finalize)
    return(
@@ -208,7 +182,6 @@ if(elem.status === condition.status && elem.finalize === condition.finalize)
         <td scope='col'>{elem.lid}  {member.map(elem2=>{
           if(elem.pid === elem2.pid)
           return(<p key={uuid()}>{elem2.usn} </p>)
-          
         })}
         </td>
         <td scope="col">{elem.name}</td>

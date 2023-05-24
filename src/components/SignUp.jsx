@@ -24,7 +24,8 @@ const SignUp = () => {
     password:"",
     dname:"",
     desgination:"",
-    userid: ""
+    studentId: "",
+    year:""
   })
 
   const [condition,setCondition] = useState({
@@ -33,9 +34,8 @@ const SignUp = () => {
 const [errorMessage,setErrorMessage] = useState('')
 const [show,setShow] = useState(false)
 const [departmaent,setDepartment]= useState([{
-    dname:"cse"
-},{
-    dname:"ae"
+  collegeName:"",
+  dname:""
 }])
 
 useEffect(()=>{
@@ -43,24 +43,22 @@ useEffect(()=>{
   (userInfo.desgination === "Student") ? setShow(true): setShow(false)
 },[userInfo.desgination])
 
-// const getDepartmentList=async()=>{ 
+const getDepartmentList=async()=>{ 
+    const response = await fetch(`http://localhost:5000/getDepartmentList/collegeName/${userInfo.collegeCode}`,
+    {
+      headers:{
+        JToken:localStorage.getItem('JToken')
+      }
+    });
+  const data = await response.json();
+  setDepartment(data);
+}
 
-//     const response = await fetch(`http://localhost:5000/departmentInfo/${userInfo.collegeCode}`,
-//     {
-//       headers:{
-//         JToken:localStorage.getItem('JToken')
-//       }
-//     });
-//   const data = await response.json();
-//   setDepartment(data);
-// }
-
-// useEffect( ()=>{
- 
-//  if(userInfo.desgination === "Student" ) {
-//     getDepartmentList();
-// }
-// },[userInfo.collegeCode])
+useEffect( ()=>{
+ if(userInfo.desgination === "Student" ) {
+    getDepartmentList();
+}
+},[userInfo.collegeCode])
 
 
   const register=async(e)=>{
@@ -95,8 +93,8 @@ else{
 
   if(userInfo.desgination === 'College Admin')
   navigate(`/AdminHome/${userInfo.id}/${userInfo.collegeCode}`)
-// else
-// navigate(`/studenthome/${userInfo.userid}/${userInfo.collegeCode}/${userInfo.dname}`)
+else
+navigate(`/StudentHome/${userInfo.id}/${userInfo.collegeCode}/${userInfo.dname}`)
 }
 
 
@@ -127,24 +125,42 @@ else{
                 /> </>:""}
               </div>
               <div className="mb-3 ">
-                <label className="form-label">College Name</label>
-                <input type="name" className="form-control required"  placeholder="Enter Your College Name"  required
-                  value={userInfo.collegeName} onChange={e=>{setUserInfo({...userInfo,collegeName:e.target.value})}}
-                />
-              </div>
-              <div className="mb-3 ">
                 <label className="form-label">College Code</label>
                 <input type="name" className="form-control required"  placeholder="Enter Your College Code"  required
                   value={userInfo.collegeCode} onChange={e=>{setUserInfo({...userInfo,collegeCode:e.target.value})}}
                 />
+              </div>
+              <div className="mb-3 ">
+                <label className="form-label">College Name</label>
+                {show? <>
+                  <select className="form-select" 
+          value={userInfo.collegeName} onChange={e=>{setUserInfo({...userInfo,collgeName:e.target.value})}} required>
+                  
+                   <option>{departmaent[0].collegeName}</option>
+</select>
+                </>:<input type="name" className="form-control required"  placeholder="Enter Your College Name"  required
+                  value={userInfo.collegeName} onChange={e=>{setUserInfo({...userInfo,collegeName:e.target.value})}}
+                />}
               </div>
               { show ?  
               <>
               <div className="mb-3 ">
                 <label className="form-label">University Seat Number</label>
                 <input type="name" className="form-control required"  placeholder="Enter Your USN"  required
-                  value={userInfo.id} onChange={e=>{setUserInfo({...userInfo,id:e.target.value})}}
+                  value={userInfo.studentId} onChange={e=>{setUserInfo({...userInfo,studentId:e.target.value})}}
                 />
+              </div>
+              <div className="mb-3 ">
+                <label className="form-label">Current Year</label>
+                <select className="form-select" 
+          value={userInfo.year} onChange={e=>{setUserInfo({...userInfo,year:e.target.value})}} required>
+                  
+                   <option defaultValue >choose Department</option>
+                   <option >1st</option>
+                   <option  >2nd</option>
+                   <option  >3rd </option>
+                   <option  >4rd</option>
+                   </select>
               </div>
               <div className="mb-3 ">
             <label  className="form-label">Department</label>
@@ -154,12 +170,12 @@ else{
                    <option defaultValue >choose Department</option>
                    {departmaent.map(elem=>{
                     return(
-                      <option >{elem.dname}</option>)})
+                      <option key={uuid()}>{elem.dname}</option>)})
 }
 </select>
 </div>
 </>
-              :"" }
+              :""}
              
            
             <div className="mb-3 ">

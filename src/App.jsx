@@ -7,6 +7,7 @@ import AdminHome from "./components/Admin/AdminHome";
 import DepartmentInfo from "./components/Admin/DepartmentInfo";
 import DepartmentHome from "./components/Department/DepartmentHome";
 import MentorHome from "./components/mentor/MenotHome";
+import StudentHome from "./student/StudentHome";
 function App() {
   return (
     <>
@@ -47,6 +48,22 @@ function App() {
 
 
   <Route path="/MentorHome/:id/:collegeCode/:dname" element={<MentorHome></MentorHome>}/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <Route path="/StudentHome/:id/:collegeCode/:dname" element={<StudentHome></StudentHome>}/>
   </Routes>
    
    </BrowserRouter>
