@@ -12,5 +12,36 @@ const getDashBoardInformation =async(req,res)=>{
         res.json(data.rows);
     }
     }
+
+
+    const getMentorList=async(req,res)=>{
+        const {type,collegeCode,dname} = req.params;
+        if(type === 'interCollege'){
+          
+            
+            const data = await pool.query('SELECT * FROM mentor WHERE "collegeCode"=$1 ORDER BY (name) ASC ',[collegeCode]);
+            res.json(data.rows);
+        }
+        else{
+           
+            const data = await pool.query('SELECT * FROM mentor WHERE "collegeCode"=$1 AND "dname"=$2 ORDER BY (name) ASC ',[collegeCode,dname]);
+            res.json(data.rows);
+        }
+    }
     
-    module.exports = getDashBoardInformation;
+
+    const getProjectMemberList=async(req,res)=>{
+        const {type,collegeCode,dname} = req.params;
+        if(type === 'interCollege'){
+            console.log('interCollege')
+            const data = await pool.query('SELECT * FROM student WHERE "collegeCode"=$1 ORDER BY (name) ASC ',[collegeCode]);
+            res.json(data.rows);
+        }
+        else{
+            console.log('interD')
+            const data = await pool.query('SELECT * FROM student WHERE "collegeCode"=$1 AND "dname"=$2 ORDER BY (name) ASC ',[collegeCode,dname]);
+            res.json(data.rows);
+           
+        }
+    }
+    module.exports = {getDashBoardInformation,getMentorList,getProjectMemberList};

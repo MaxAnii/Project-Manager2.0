@@ -2,7 +2,7 @@
 import React, { useState,useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { v4 as uuid } from 'uuid';
-import StudentNavbar from './studentNavbar';
+import StudentNavbar from './StudentNavbar';
 // import StudentNavbar from './StudentNavbar';
 // import Title from '../Title';
 const StudentHome = () => {
@@ -48,7 +48,7 @@ const [condition,setCondition]= useState({
   <>
  
  {/* <StudentNavbar id={param.id} dname={param.dname} cc={param.cc}></StudentNavbar> */}
-<StudentNavbar></StudentNavbar>
+<StudentNavbar id={param.id} collegeCode={param.collegeCode} dname={param.dname}></StudentNavbar>
   <div className='background'>
   {/* <Title collegecode= {param.cc}></Title> */}
 <div className='container-content'>

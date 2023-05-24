@@ -2,7 +2,7 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 
 // import Logout from "../Logout";
-const StudentNavbar = () => {
+const StudentNavbar = (props) => {
   return (
     <>
       <div className="title"> 
@@ -31,7 +31,7 @@ const StudentNavbar = () => {
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item">
                 <NavLink
-                  // to={`/home/${props.cc}/${props.id}`}
+                  to={`/StudentHome/${props.id}/${props.collegeCode}/${props.dname}`}
                   className="navLink"
                 >
                   Home
@@ -40,10 +40,10 @@ const StudentNavbar = () => {
 
               <li className="nav-item">
                 <NavLink
-                  // to={`/projectlist/${props.cc}/${props.id}`}
+                  to={`/AddNewProject/${props.id}/${props.collegeCode}/${props.dname}`}
                   className="navLink"
                 >
-                  list Project
+                  New Project
                 </NavLink>
               </li>
               <li className="nav-item">
