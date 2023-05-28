@@ -33,12 +33,12 @@ const getDashBoardInformation =async(req,res)=>{
     const getProjectMemberList=async(req,res)=>{
         const {type,collegeCode,dname} = req.params;
         if(type === 'interCollege'){
-            console.log('interCollege')
+           
             const data = await pool.query('SELECT * FROM student WHERE "collegeCode"=$1 ORDER BY (name) ASC ',[collegeCode]);
             res.json(data.rows);
         }
         else{
-            console.log('interD')
+          
             const data = await pool.query('SELECT * FROM student WHERE "collegeCode"=$1 AND "dname"=$2 ORDER BY (name) ASC ',[collegeCode,dname]);
             res.json(data.rows);
            
