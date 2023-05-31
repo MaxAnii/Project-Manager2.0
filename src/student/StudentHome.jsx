@@ -3,7 +3,6 @@ import React, { useState,useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { v4 as uuid } from 'uuid';
 import StudentNavbar from './StudentNavbar';
-// import StudentNavbar from './StudentNavbar';
 // import Title from '../Title';
 const StudentHome = () => {
   var i=1;
@@ -19,43 +18,39 @@ const [condition,setCondition]= useState({
 })
 
   const getProject=async()=>{
-    const respone = await fetch(`http://localhost:5000/student/projectlist/${param.id}/project`,
-    {
-      headers:{
-        JToken:localStorage.getItem('JToken')
-      }
-    });
+    const respone = await fetch(`http://localhost:5000/getprojectlist/student/${param.id}`)
+    // {
+    //   headers:{
+    //     JToken:localStorage.getItem('JToken')
+    //   }
+    // });
     const data = await respone.json();
     setProject(data)
   
-    const respone2 = await fetch(`http://localhost:5000/student/projectlist/${param.id}/member`,
-    {
-      headers:{
-        JToken:localStorage.getItem('JToken')
-      }
-    });
-    const data2 = await respone2.json();
-    setMember(data2)
+    // const respone2 = await fetch(`http://localhost:5000/student/projectlist/${param.id}/member`,
+    // {
+    //   headers:{
+    //     JToken:localStorage.getItem('JToken')
+    //   }
+    // });
+    // const data2 = await respone2.json();
+    // setMember(data2)
   }
 
-//   useEffect(()=>{
-//     getProject()
+  useEffect(()=>{
+    getProject()
     
-//    // eslint-disable-next-line
-//   },[])
-  
+   // eslint-disable-next-line
+  },[])
+
   return (
   <>
  
- {/* <StudentNavbar id={param.id} dname={param.dname} cc={param.cc}></StudentNavbar> */}
 <StudentNavbar id={param.id} collegeCode={param.collegeCode} dname={param.dname}></StudentNavbar>
   <div className='background'>
-  {/* <Title collegecode= {param.cc}></Title> */}
+ 
 <div className='container-content'>
 
-
-
-  
 
 <ul className=' row g-3 container-box'  type='none' >
 <li className='col-auto' ><button  className="btn btn-dark mb-3" onClick={()=>setCondition({
@@ -96,7 +91,7 @@ const [condition,setCondition]= useState({
     <thead>
       <tr>
         <th scope="col">#</th>
-        <th scope="col">USN</th>
+        {/* <th scope="col">USN</th> */}
        <th scope='col'>Mentor Id</th>
         <th scope="col">PROJECT NAME</th>
         <th scope='col'>Project discreption</th>
@@ -107,22 +102,23 @@ const [condition,setCondition]= useState({
     <tbody>
      
     {project.map(elem=>{
-if(elem.status === condition.status && elem.finalize === condition.finalize)
    return(
       <tr key={uuid()}>
         <td scope="row" >{i++}</td>
-        <td scope='col'> {elem.lid}   {member.map(elem2=>{
+        {/* <td scope='col'> {elem.leaderId}   */}
+         {/* {member.map(elem2=>{
           if(elem.pid === elem2.pid)
           return(<p key={uuid()}>{elem2.usn}</p>)
           
-        })}
-        </td>
-        <td scope='col'>{elem.mid}</td>
-        <td scope="col">{elem.name}</td>
+        })} */}
+
+        {/* </td> */}
+        <td scope='col'>{elem.mentorId}</td>
+        <td scope="col">{elem.projectName}</td>
 
         <td scope="col">{elem.description}</td>
-       {(elem.status === false)? <td> {elem.reason}</td>:<td> {condition.message}</td>
-}
+     <td> {elem.status}</td>
+
       </tr>
     )
   })}

@@ -21,7 +21,7 @@ const [condition,setCondition]= useState({
 })
 
 const getProject=async()=>{
-  const respone = await fetch(`http://localhost:5000/profhome/project/${param.id}/project`,
+  const respone = await fetch(`http://localhost:5000/getprojectlist/mentor/${param.id}`,
   {
         headers:{
           JToken:localStorage.getItem('JToken')
@@ -29,7 +29,7 @@ const getProject=async()=>{
   const data = await respone.json();
   setProject(data)
 
-  const respone2 = await fetch(`http://localhost:5000/profhome/project/${param.id}/member`,
+  const respone2 = await fetch(`http://localhost:5000/getmemberlist/mentor/${param.id}`,
   {
         headers:{
           JToken:localStorage.getItem('JToken')
@@ -37,9 +37,10 @@ const getProject=async()=>{
   const data2 = await respone2.json();
   setMember(data2)
 }
-// useEffect(()=>{
-//   getProject()
-// },[])
+useEffect(()=>{
+  getProject()
+},[])
+
 
 const [projectstatus1,setProjectStatus1] = useState({
   pid:"",
@@ -166,32 +167,32 @@ const FinalizeProject=async()=>{
         <th scope="col">PROJECT NAME</th>
         <th scope='col'>Project discreption</th>
         
-        
+{/*         
         {(condition.thead === 'New request')?<>
         <th scope="col">Accept</th>
         <th scope='col'>REJECT</th>
-        </>:<th scope="col">{condition.thead}</th>}
+        </>:<th scope="col">{condition.thead}</th>} */}
       </tr>
     </thead>
     <tbody> 
     {project.map(elem=>{
-if(elem.status === condition.status && elem.finalize === condition.finalize)
+
    return(
       <tr key={uuid()}>
         <td scope="row" >{row++}</td>
-        <td scope='col'>{elem.lid}  {member.map(elem2=>{
-          if(elem.pid === elem2.pid)
-          return(<p key={uuid()}>{elem2.usn} </p>)
+        <td scope='col'>{elem.leaderId}  {member.map(elem2=>{
+          if(elem.id === elem2.projectId)
+          return(<p key={uuid()}>{elem2.memberId} </p>)
         })}
         </td>
-        <td scope="col">{elem.name}</td>
+        <td scope="col">{elem.projectName}</td>
         <td scope="col">{elem.description}</td>
 
-        {(condition.message === 'Finalized')?<td scope="col">{condition.message}</td>:<></>}
+        {/* {(condition.message === 'Finalized')?<td scope="col">{condition.message}</td>:<></>}
         {(condition.message === 'Rejected')? <td scope="col">{elem.reason}</td>:<></>}
-        {(condition.thead === 'New request')? <><td scope='col'><button  className="btn btn-dark mb-3" onClick={()=>{acceptProject(elem.pid)}} >Accept</button></td>
-        <td scope='col'><RejectModal pid={elem.pid} getProject={getProject}></RejectModal></td></>:<></>}
-        {(condition.message === 'In Progess')?<><td scope='col'><button  className="btn btn-dark mb-3" onClick={()=>{finalizeCondition(elem.pid)}} >Finalize</button></td></>:<></>}
+        {/* {(condition.thead === 'New request')? <><td scope='col'><button  className="btn btn-dark mb-3" onClick={()=>{acceptProject(elem.pid)}} >Accept</button></td>
+        <td scope='col'><RejectModal pid={elem.pid} getProject={getProject}></RejectModal></td></>:<></>} 
+       {/* {(condition.message === 'In Progess')?<><td scope='col'><button  className="btn btn-dark mb-3" onClick={()=>{finalizeCondition(elem.pid)}} >Finalize</button></td></>:<></>} */} 
       </tr>
     )
   })}

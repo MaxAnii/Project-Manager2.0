@@ -21,7 +21,7 @@ let year = new Date().getFullYear();
     description:"",
     mentorid:"",
     status:'pending',
-   date: `${year}-${month}-${day}`
+   date: `${year}-${month+1}-${day}`
     
   })
   const [projectType ,setProjectType] = useState("")
@@ -29,6 +29,7 @@ let year = new Date().getFullYear();
   const [usn,setUsn] = useState([])
     const [mentor,setMentor] = useState([])
     const [projectMember, setProjectMember] =useState([])
+
     const getData= async()=>{
       if(projectType === 'interDepartment'){
       const mentorResponse= await fetch(`http://localhost:5000/getProjectMentorList/${projectType}/${param.collegeCode}/${param.dname}`)
@@ -56,7 +57,7 @@ let year = new Date().getFullYear();
   //seting fetched usn as option list for select
   for(var i=0;i<projectMember.length;i++){
 memberOptions[i] = {
-  value:projectMember[i].studentId,
+  value:projectMember[i].id,
   label:projectMember[i].studentId,
 }
   }
@@ -71,7 +72,7 @@ mentorOptions[i] = {
 
 const submitProject=async(e)=>{
   e.preventDefault();
-  console.log("hi")
+
  fetch("http://localhost:5000/addNewProject/project",{
        method:"POST",
        headers:{
@@ -88,7 +89,6 @@ const submitProject=async(e)=>{
           projectId:ProjectInfo.id,
            memberId:usn[i].value,
          }
-       console.log(projectMemberDetails)
        fetch("http://localhost:5000/addNewProject/member",{
              method:"POST",
              headers:{
@@ -99,10 +99,9 @@ const submitProject=async(e)=>{
        body: JSON.stringify(projectMemberDetails)
      })
    }
- 
+
    setProjectInfo({...ProjectInfo,projectName:"", 
    description:"",
-   mentorid:"",
    id:v4().slice(0,29)})
    setUsn([])
    alert("Project Submission Successful")
@@ -113,6 +112,7 @@ const submitProject=async(e)=>{
 
 const handleChangeUsn=(selectedOption)=>{
   var arr = selectedOption
+
   setUsn(arr);
   if(arr.length>4)
   {
