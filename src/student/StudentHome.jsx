@@ -3,6 +3,7 @@ import React, { useState,useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { v4 as uuid } from 'uuid';
 import StudentNavbar from './StudentNavbar';
+import ProjectDetails from '../components/ProjectDetails';
 // import Title from '../Title';
 const StudentHome = () => {
   var i=1;
@@ -92,7 +93,7 @@ const [condition,setCondition]= useState({
       <tr>
         <th scope="col">#</th>
         {/* <th scope="col">USN</th> */}
-       <th scope='col'>Mentor Id</th>
+       {/* <th scope='col'>Mentor Name</th> */}
         <th scope="col">PROJECT NAME</th>
         <th scope='col'>Project discreption</th>
         
@@ -113,11 +114,12 @@ const [condition,setCondition]= useState({
         })} */}
 
         {/* </td> */}
-        <td scope='col'>{elem.mentorId}</td>
+        {/* <td scope='col'>{elem.name}</td> */}
         <td scope="col">{elem.projectName}</td>
 
         <td scope="col">{elem.description}</td>
      <td> {elem.status}</td>
+     <td scope='col'><ProjectDetails></ProjectDetails></td>
 
       </tr>
     )

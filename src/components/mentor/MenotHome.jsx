@@ -180,9 +180,9 @@ const FinalizeProject=async()=>{
    return(
       <tr key={uuid()}>
         <td scope="row" >{row++}</td>
-        <td scope='col'>{elem.leaderId}  {member.map(elem2=>{
+        <td scope='col'>{elem.studentId}  {member.map(elem2=>{
           if(elem.id === elem2.projectId)
-          return(<p key={uuid()}>{elem2.memberId} </p>)
+          return(<p key={uuid()}>{elem2.studentId} </p>)
         })}
         </td>
         <td scope="col">{elem.projectName}</td>
