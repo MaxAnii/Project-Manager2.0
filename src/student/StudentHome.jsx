@@ -103,24 +103,18 @@ const [condition,setCondition]= useState({
     <tbody>
      
     {project.map(elem=>{
+    
    return(
       <tr key={uuid()}>
         <td scope="row" >{i++}</td>
-        {/* <td scope='col'> {elem.leaderId}   */}
-         {/* {member.map(elem2=>{
-          if(elem.pid === elem2.pid)
-          return(<p key={uuid()}>{elem2.usn}</p>)
-          
-        })} */}
-
-        {/* </td> */}
-        {/* <td scope='col'>{elem.name}</td> */}
         <td scope="col">{elem.projectName}</td>
-
         <td scope="col">{elem.description}</td>
      <td> {elem.status}</td>
-     <td scope='col'><ProjectDetails></ProjectDetails></td>
-
+     <td scope='col'>
+     <ProjectDetails info={{...elem}}
+     from='student'
+     />
+     </td>
       </tr>
     )
   })}

@@ -61,12 +61,7 @@ tr:nth-child(even) {
     background-image:linear-gradient(180deg,#F9F9F9,#2D4059) ;
     justify-content: center;
 }
-.rounded{
 
-height: 25vh;
-aspect-ratio: 2/3;
-
-}
 .chlid1{
     padding-top: 8vh;
     display: flex;

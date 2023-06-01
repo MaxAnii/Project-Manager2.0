@@ -25,10 +25,10 @@ const getProjectList=async(req,res)=>{
 const {type,id} = req.params;
 let data;
 if(type === 'student'){
-     data = await pool.query('SELECT project_detials."id", "projectName" ,"description" ,"date", "status",mentor."name", "leaderId" FROM project_detials,mentor WHERE  mentor."id" = "mentorId" AND project_detials."id" IN (SELECT "projectId" FROM project_members WHERE "memberId"=$1) UNION SELECT project_detials."id", "projectName" ,"description" ,"date", "status",mentor."name", "leaderId" FROM project_detials,mentor WHERE  mentor."id" = "mentorId" AND "leaderId" = $2 ',[id,id])
+     data = await pool.query('SELECT project_detials."id", "projectName" ,"description" ,"StartDate","finalizeDate","rejectReason", "status",mentor."name", "leaderId" FROM project_detials,mentor WHERE  mentor."id" = "mentorId" AND project_detials."id" IN (SELECT "projectId" FROM project_members WHERE "memberId"=$1) UNION SELECT project_detials."id", "projectName" ,"description" ,"StartDate","finalizeDate","rejectReason", "status",mentor."name", "leaderId" FROM project_detials,mentor WHERE  mentor."id" = "mentorId" AND "leaderId" = $2 ',[id,id])
 }
 else if(type === 'mentor'){
-    data = await pool.query('SELECT project_detials."id", "projectName" ,"description" ,"date", "status","studentId"  FROM project_detials,student WHERE "mentorId"=$1 AND "leaderId"=student."id"',[id])
+    data = await pool.query('SELECT project_detials."id", "projectName" ,"description" ,"StartDate","finalizeDate", "status","studentId"  FROM project_detials,student WHERE "mentorId"=$1 AND "leaderId"=student."id"',[id])
 }
 
 res.json(data.rows)
@@ -47,6 +47,23 @@ else if(type === 'mentor'){
  res.json(data.rows)
 }
 
+const updateProjectStatus=async(req,res)=>{
+    const {type} = req.params;
+  
+    if(type=== 'finalize'){
+        const{date,id,status} = req.body
+        await pool.query('UPDATE project_detials SET "finalizeDate"=$1 ,"status"=$2 WHERE "id"=$3',[date,status,id])
+    }
+    const{status,id,reason} = req.body
+    await pool.query('UPDATE project_detials SET "status"=$1,"rejectReason"=$2 WHERE "id"=$3',[status,reason,id])
+}
+
+const deleteProject=async(req,res)=>{
+     const {id} = req.params
+     console.log(id)
+ await pool.query('DELETE FROM project_detials WHERE "id"=$1',[id])
+}
 
 
-module.exports = {addNewProject,getProjectList,getMembertList}
+
+module.exports = {addNewProject,getProjectList,getMembertList,updateProjectStatus,deleteProject}

@@ -80,3 +80,12 @@ padding-top: 1vh;
     text-decoration: none;
     color: whitesmoke;
   }
+  .project-details{
+    padding: 6%;
+    background-color: #c5d3de ;
+    height: 100vh;
+  }
+.modal-header,.modal-footer {
+  background-color:#27374D;
+  color: whitesmoke; 
+}
