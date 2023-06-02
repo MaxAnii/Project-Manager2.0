@@ -2,7 +2,8 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 //  import "./admin.css";
 // import Logout from "../Logout";
-const AdminNavbar = () => {
+const AdminNavbar = (props) => {
+
   return (
     <>
       <div className="title"> 
@@ -31,7 +32,7 @@ const AdminNavbar = () => {
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item">
                 <NavLink
-                  // to={`/home/${props.cc}/${props.id}`}
+                   to={`/AdminHome/${props.id}/${props.collegeCode}`}
                   className="navLink"
                 >
                   Home
@@ -40,7 +41,7 @@ const AdminNavbar = () => {
 
               <li className="nav-item">
                 <NavLink
-                  // to={`/projectlist/${props.cc}/${props.id}`}
+                   to={`/AdminHome/${props.id}/${props.collegeCode}/listallproject`}
                   className="navLink"
                 >
                   list Project

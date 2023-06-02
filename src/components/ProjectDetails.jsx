@@ -2,6 +2,9 @@ import React from 'react'
 import { useState } from 'react'
 import './home.css'
 import RejectProjectReason from './RejectProjectReason'
+import { useEffect } from 'react'
+import { v4 } from 'uuid'
+
 const ProjectDetails = (props) => {
 
 const [ProjectDetails,setProjectDetails] = useState({
@@ -11,9 +14,21 @@ const [ProjectDetails,setProjectDetails] = useState({
     des:props.info.description,
     StartDate:props.info.StartDate,
     finalizeDate:props.info.finalizeDate,
-    status:props.info.status
+    status:props.info.status,
+    reason:props.info.rejectReason
 })
+const [projectMember,setProjectMember] = useState([])
 
+
+const getMemberList=async()=>{
+  const respone = await fetch(`http://localhost:5000/getmemberlist/${ProjectDetails.id}`);
+  const data = await respone.json();
+  setProjectMember(data)
+}
+
+useEffect(()=>{
+  getMemberList()
+},[])
 
 
 const updateProjectStatus=async(newStatus,rejectReason)=>{
@@ -61,9 +76,9 @@ const deleteProject=()=>{
 
   return (
     <div>
-           <button className="btn btn-dark" type="button" data-bs-target="#myModal" data-bs-toggle="modal">See Details</button>
+           <button className="btn btn-dark" type="button" data-bs-target={`#myModal${ProjectDetails.id}`} data-bs-toggle="modal">See Details</button>
 
-        <div className="modal fade" id="myModal">
+        <div className="modal fade" id={`myModal${ProjectDetails.id}`}>
             <div className="modal-dialog modal-fullscreen">
                 <div className="modal-content">
                     <div className="modal-header ">
@@ -72,7 +87,7 @@ const deleteProject=()=>{
                     </div>
                   
 
-                    <div className='project-details'>
+                    <div className='project-details modal-body'>
 
 <form className="row g-3 FormContainer" >
 <div className="col-md-12 ">
@@ -99,8 +114,22 @@ const deleteProject=()=>{
 
   </div>
   <div className="col-md-12">
-    <label  className="form-label">Project Member</label>
+    <label  className="form-label" style={{display:'block'}}>Project Member</label>
+    { projectMember.map((elem,i)=>{
+      
+        return(
+         
+          <div className="col-md-3 " style={{display:'inline-flex',margin:'2px'}} key={v4()}>
+         
+  <input type="text" className="form-control form-label"  value={elem.studentId} readOnly
+  />
 
+</div>
+        
+        )
+    })
+
+    }
     
 
   </div>
@@ -118,30 +147,41 @@ const deleteProject=()=>{
 
     <input type="text" className="form-control"  value={ProjectDetails.StartDate.slice(0,10)} readOnly
     />
-
-  </div>
+ </div>
+{ props.info.status !== 'Rejected'?
   <div className="col-md-4">
     <label  className="form-label">Finalized Date</label>
 
     <input type="text" className="form-control"  value={ProjectDetails.finalizeDate || ""} readOnly
     />
 
+  </div>:
+  <div className="col-12">
+    <label  className="form-label">Reject Reason</label>
+
+  <textarea className="form-control" id="exampleFormControlTextarea1" rows="3" readOnly
+ value={ProjectDetails.reason}
+  required ></textarea>
+
   </div>
+  
+  
+  }
 </form>
 
 </div>
                     <div className="modal-footer">
                        { 
-                        ( props.from == 'student' && props.status =='pending')? <> 
+                        ( props.from == 'mentor' && props.info.status =='pending')? <> 
                         
                         <button className="btn btn-primary" data-bs-dismiss="modal" onClick={()=>updateProjectStatus('In Progess',"")}>Accept</button>
                         <button className="btn btn-danger" type="button" data-bs-toggle="modal" data-bs-target="#secondModal" >Reject</button> 
                         </> :
-                        ( props.from === 'mentor' && props.status ==='In Progess' )?
+                        ( props.from === 'mentor' && props.info.status ==='In Progess' )?
                         <button className="btn btn-dark" type="button" data-bs-toggle="modal" onClick={finalizeProject} >finalize</button>:
 
                         
-                       (props.from === 'mentor' && props.status !== 'Finalized')?
+                       (props.from === 'student' && props.info.status !== 'Finalized')?
 
                         <button className="btn btn-danger" type="button" data-bs-toggle="modal" onClick={deleteProject} >Delete</button>
                        :"" 

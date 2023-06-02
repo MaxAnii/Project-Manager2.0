@@ -37,7 +37,7 @@ const RejectProjectReason = (props) => {
                 type="submit"
                 data-bs-toggle="modal"
                 data-bs-dismiss="modal"
-                onClick={() => props.updateStatus("Rejected")}
+                onClick={() => props.updateStatus("Rejected",reason)}
               >
                 Reject
               </button>

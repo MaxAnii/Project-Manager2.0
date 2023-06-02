@@ -5,7 +5,7 @@ import {  useParams } from 'react-router-dom'
 import Select from 'react-select';
 import { v4 } from 'uuid';
 import './student.css'
-import Footer from '../components/Footer'
+import Footer from '../Footer';
 const AddNewProject = () => {
   const param = useParams();
   var memberOptions = []

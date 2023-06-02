@@ -1,7 +1,7 @@
 import React, {  useEffect } from 'react'
 import {  useNavigate , useParams} from 'react-router-dom'
 import { useState } from 'react'
-// import UpdateInfo from '../UpdateInfo'
+import UpdateDepartmentInfo from './UpdateDepartmentInfo'
 import { v4 as uuid } from 'uuid'
 import AdminNavbar from './AdminNavbar'
 import './admin.css'
@@ -74,7 +74,7 @@ const seeDetails=(dname,cc)=>{
 
   return (<>
  
-  <AdminNavbar cc={param.cc} id={param.id}></AdminNavbar>
+ <AdminNavbar id={param.id} collegeCode={param.collegeCode}></AdminNavbar>
 <div className='background'>
 {/* <Title collegecode= {param.cc}></Title> */}
 <div className='container-content'>
@@ -139,6 +139,9 @@ const seeDetails=(dname,cc)=>{
   department={elem.dname} email={elem.email} desgination="College Admin" MainId={elem.id}
 /></td> */}
       <td scope='col'><button  className="btn btn-dark mb-3" onClick={()=> seeDetails(elem.dname)  }>See Details</button></td>
+<td scope='col'>
+<UpdateDepartmentInfo id={elem.id} hodid={ elem.hodid} name={elem.name} department={elem.dname} email={elem.email}></UpdateDepartmentInfo>
+</td>
     </tr>
   )
 })}

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import {NavLink, useParams} from 'react-router-dom'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-
+import UpdateMentorInformation from './UpdateMentorInformation'
 // import UpdateInfo from '../UpdateInfo'
 // import HodNavbar from './HodNavbar'
 // import Title  from '../Title'
@@ -76,9 +76,9 @@ navigate(`/mentordetails/${param.id}/${param.dname}/${param.cc}/${profid}`)
 {/*   
 
 <HodNavbar id ={param.id} dname={param.dname} cc={param.cc}></HodNavbar> */}
-<DepartmentNavbar></DepartmentNavbar>
+<DepartmentNavbar id={param.id} collegeCode={param.collegeCode} dname={param.dname}></DepartmentNavbar>
 <div className='background'>
-{/* <Title collegecode= {param.cc}></Title> */}
+
 <div className='container-content'>
 
 
@@ -121,9 +121,10 @@ navigate(`/mentordetails/${param.id}/${param.dname}/${param.cc}/${profid}`)
   <thead>
     <tr>
       <th scope="col">#</th>
-      <th scope="col">Professor Id</th>
+    
       <th scope="col">Professor</th>
-   
+      <th scope="col">Email</th>
+    
     </tr>
   </thead>
   <tbody>
@@ -133,10 +134,12 @@ navigate(`/mentordetails/${param.id}/${param.dname}/${param.cc}/${profid}`)
   return(
     <tr key={elem.id}>
       <th scope="row" >{i++}</th>
-      <td scope="col">{elem.profId}</td>
+    
       <td scope="col">{elem.name}</td>
+      <td scope="col">{elem.email}</td>
 {/* <td scope='col'><UpdateInfo desgination='HOD' id={elem.id} name={elem.name} email={elem.email}></UpdateInfo></td> */}
-      <td scope='col'><button  className="btn btn-dark mb-3" onClick={()=>seedetails(elem.profid)} >See Details</button></td>
+      <td scope='col'><button  className="btn btn-dark mb-3" onClick={()=>navigate(`/DepartmentHome/${param.id}/${param.collegeCode}/${param.dname}/mentorprojectlist/${elem.id}`)} >See Details</button></td>
+<td scope='col'> <UpdateMentorInformation id={elem.id} name={elem.name} profid={elem.profId} email={elem.email}></UpdateMentorInformation></td>
     </tr>
   )
 })}

@@ -7,8 +7,13 @@ import AdminHome from "./components/Admin/AdminHome";
 import DepartmentInfo from "./components/Admin/DepartmentInfo";
 import DepartmentHome from "./components/Department/DepartmentHome";
 import MentorHome from "./components/mentor/MenotHome";
-import StudentHome from "./student/StudentHome";
-import AddNewProject from "./student/AddNewProject";
+import StudentHome from "./components/student/StudentHome";
+import AddNewProject from "./components/student/AddNewProject";
+import MentorProjectList from "./components/Admin/MentorProjectList";
+import DepartmentMentorProjectList from "./components/Department/DepartmentMentorProjectList";
+import ListAllproject from "./components/Admin/ListAllProject";
+import ListDepartmentProject from "./components/Department/ListDepartmentProject";
+import ListDepartmentProjectInMentor from "./components/mentor/ListDepartmentProjectInMentor";
 function App() {
   return (
     <>
@@ -19,9 +24,15 @@ function App() {
   <Routes>
   <Route path="/" element={<Home/>}/>
   <Route path="/loginSignup" element={<SignUpLogin></SignUpLogin>}/>
+
+
+
+
   <Route path="/AdminHome/:id/:collegeCode" element={<AdminHome></AdminHome>}/>
   <Route path="/AdminHome/:id/:collegeCode/departmentInfo/:dname" element={<DepartmentInfo></DepartmentInfo>}/>
-
+  <Route path="/AdminHome/:id/:collegeCode/departmentInfo/:dname/mentorprojectlist/:mentorid" element={<MentorProjectList></MentorProjectList>}/>
+  <Route path="/AdminHome/:id/:collegeCode/listallproject" element={<ListAllproject></ListAllproject>}/>
+  
 
 
 
@@ -30,6 +41,8 @@ function App() {
 
 
   <Route path='/DepartmentHome/:id/:collegeCode/:dname' element={<DepartmentHome></DepartmentHome>}/>
+  <Route path='/DepartmentHome/:id/:collegeCode/:dname/mentorprojectlist/:mentorid' element={<DepartmentMentorProjectList></DepartmentMentorProjectList>}/>
+  <Route path='/DepartmentHome/:id/:collegeCode/:dname/departmentprojectlist' element={<ListDepartmentProject></ListDepartmentProject>}/>
 
 
 
@@ -49,6 +62,7 @@ function App() {
 
 
   <Route path="/MentorHome/:id/:collegeCode/:dname" element={<MentorHome></MentorHome>}/>
+  <Route path="/MentorHome/:id/:collegeCode/:dname/getdepartmentlist" element={<ListDepartmentProjectInMentor></ListDepartmentProjectInMentor>}/>
 
 
 

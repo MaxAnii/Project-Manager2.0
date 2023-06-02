@@ -22,28 +22,30 @@ else{
 
 
 const getProjectList=async(req,res)=>{
-const {type,id} = req.params;
+const {type,id,dname} = req.params;
 let data;
 if(type === 'student'){
-     data = await pool.query('SELECT project_detials."id", "projectName" ,"description" ,"StartDate","finalizeDate","rejectReason", "status",mentor."name", "leaderId" FROM project_detials,mentor WHERE  mentor."id" = "mentorId" AND project_detials."id" IN (SELECT "projectId" FROM project_members WHERE "memberId"=$1) UNION SELECT project_detials."id", "projectName" ,"description" ,"StartDate","finalizeDate","rejectReason", "status",mentor."name", "leaderId" FROM project_detials,mentor WHERE  mentor."id" = "mentorId" AND "leaderId" = $2 ',[id,id])
+     data = await pool.query('(SELECT project_detials."id", "projectName" ,"description" ,"StartDate","finalizeDate","rejectReason", "status",mentor."name", "leaderId" FROM project_detials,mentor WHERE  mentor."id" = "mentorId" AND project_detials."id" IN (SELECT "projectId" FROM project_members WHERE "memberId"=$1) UNION SELECT project_detials."id", "projectName" ,"description" ,"StartDate","finalizeDate","rejectReason", "status",mentor."name", "leaderId" FROM project_detials,mentor WHERE  mentor."id" = "mentorId" AND "leaderId" = $2) ORDER BY "StartDate" DESC ',[id,id])
 }
 else if(type === 'mentor'){
-    data = await pool.query('SELECT project_detials."id", "projectName" ,"description" ,"StartDate","finalizeDate", "status","studentId"  FROM project_detials,student WHERE "mentorId"=$1 AND "leaderId"=student."id"',[id])
+    data = await pool.query('(SELECT project_detials."id", mentor."name", "projectName" ,"description" ,"StartDate","finalizeDate", "status" ,"rejectReason" FROM project_detials,mentor WHERE project_detials."mentorId"=$1 AND project_detials."mentorId"=mentor."id") ORDER BY "StartDate" DESC ',[id])
+}
+else if(type === 'admin'){
+    data = await pool.query('SELECT project_detials."id", "projectName" ,"description" ,"StartDate","finalizeDate","rejectReason", "status",mentor."name", "leaderId" FROM project_detials,mentor WHERE  mentor."id" = "mentorId" AND "mentorId" IN (SELECT "id" FROM mentor WHERE "collegeCode"=$1)',[id])
+}
+else {
+    console.log(dname)
+    data = await pool.query('SELECT project_detials."id", "projectName" ,"description" ,"StartDate","finalizeDate","rejectReason", "status",mentor."name", "leaderId" FROM project_detials,mentor WHERE  mentor."id" = "mentorId" AND "mentorId" IN (SELECT "id" FROM mentor WHERE "collegeCode"=$1 AND "dname"=$2)',[id,dname])
+    
 }
 
 res.json(data.rows)
 }
+
+
 const getMembertList=async(req,res)=>{
-const {type,id} = req.params;
-
- let data;
-if(type === 'student'){
-     data = await pool.query(' SELECT "projectId","studentId" FROM project_members,student WHERE "id"="memberId" AND "projectId" IN (SELECT "projectId" FROM project_members WHERE "memberId"=$1) UNION SELECT "projectId", "studentId" FROM project_members,student WHERE "projectId" IN (SELECT "id" FROM project_detials WHERE "leaderId" =$1)',[id])
-}
-else if(type === 'mentor'){
-    data = await pool.query('SELECT "projectId","studentId" FROM project_members,student  WHERE "id"="memberId" AND "projectId" IN (SELECT "id" FROM project_detials WHERE "mentorId"=$1)',[id])
-}
-
+const {id} = req.params;
+const data= await pool.query('SELECT "studentId",student."id" FROM student, project_members WHERE student."id" ="memberId" AND  project_members."projectId"=$1 UNION SELECT "studentId", student."id" FROM student, project_detials WHERE student."id" ="leaderId" AND project_detials."id"=$1 ',[id])
  res.json(data.rows)
 }
 

@@ -7,12 +7,11 @@ const DepartmentInfo = () => {
   const navigate = useNavigate()
     var row=1
     const param = useParams();
- 
     const [prof,setProf]=useState([])
-    
+   
     
 const getdata=async()=>{
-    const response =await  fetch(`http://localhost:5000/proflist/${param.cc}/${param.dname}`,
+    const response =await  fetch(`http://localhost:5000/getProjectMentorList/admin/${param.collegeCode}/${param.dname}`,
     {
       headers:{
         JToken:localStorage.getItem('JToken')
@@ -23,21 +22,21 @@ const getdata=async()=>{
     setProf(data)
 
 }
-// useEffect(()=>{
-//     getdata()
-// },[])
+useEffect(()=>{
+    getdata()
+},[])
 
-const seeDetails=(profid)=>{
-  navigate(`/home/${param.cc}/${param.id}/hoddetail/${param.dname}/profDetails/${profid}`)
-}
+// const seeDetails=(profid)=>{
+//   navigate(`/home/${param.cc}/${param.id}/hoddetail/${param.dname}/profDetails/${profid}`)
+// }
 
   return (
     <>
         
-        <AdminNavbar ></AdminNavbar>
+        <AdminNavbar id={param.id} collegeCode={param.collegeCode}></AdminNavbar>
 
 <div className='background'>
-{/* <Title collegecode= {param.cc}></Title> */}
+
 <div className='container-content'>
 <div className='dheading'>{param.dname}</div>
 
@@ -65,7 +64,7 @@ const seeDetails=(profid)=>{
       <td scope="col">{elem.name}</td>
       <td scope="col">{elem.email}</td>
 
-      <td scope='col'><button  className="btn btn-dark mb-3" onClick={()=>{seeDetails(elem.id)}}>See Details</button></td>
+      <td scope='col'><button  className="btn btn-dark mb-3" onClick={()=>{navigate(`/AdminHome/${param.id}/${param.collegeCode}/departmentInfo/${param.dname}/mentorprojectlist/${elem.id}`)}}>See Details</button></td>
     </tr>
   )
 })}

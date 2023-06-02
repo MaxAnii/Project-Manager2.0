@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { NavLink, useParams } from 'react-router-dom'
-
+import AdminNavbar from './AdminNavbar';
 import { v4 as uuid } from 'uuid';
-import MentorNavbar from './MentorNavbar';
 import ProjectDetaials from '../ProjectDetails'
-const MentorHome = () => {
+const MentorProjectList = () => {
     const param = useParams();
     var row = 1;
     
@@ -15,7 +14,7 @@ const [filter,setFilter] = useState('')
 
 
 const getProject=async()=>{
-  const respone = await fetch(`http://localhost:5000/getprojectlist/mentor/${param.id}`,
+  const respone = await fetch(`http://localhost:5000/getprojectlist/mentor/${param.mentorid}`,
   {
         headers:{
           JToken:localStorage.getItem('JToken')
@@ -40,9 +39,9 @@ else setListProject(project)
 
 
     return (<>
-   
+   <AdminNavbar id={param.id}  collegeCode={param.collegeCode} ></AdminNavbar>
 
-   <MentorNavbar id={param.id} collegeCode={param.collegeCode} dname={param.dname}></MentorNavbar>
+
     
   
   <div className='background'>
@@ -57,9 +56,7 @@ else setListProject(project)
     setFilter('In Progess')
   }}>In Progess Project</button></li>
 
-  <li className='col-auto'><button  className="btn btn-dark mb-3" onClick={()=>{
-    setFilter('Rejected')
-  }}>Rejected Project</button></li>
+
 
   <li className='col-auto'><button  className="btn btn-dark mb-3" onClick={()=>{
     setFilter('Finalized')
@@ -87,8 +84,8 @@ else setListProject(project)
     </thead>
     <tbody> 
     {listProject.map(elem=>{
-
-   return(
+        if(elem.status !== 'Rejected')
+            return(
       <tr key={uuid()}>
         <td scope="row" >{row++}</td>
       
@@ -96,12 +93,7 @@ else setListProject(project)
         <td scope="col">{elem.description}</td>
         <td scope="col">{elem.status}</td>
 
-        {/* {(condition.message === 'Finalized')?<td scope="col">{condition.message}</td>:<></>}
-        {(condition.message === 'Rejected')? <td scope="col">{elem.reason}</td>:<></>}
-        {/* {(condition.thead === 'New request')? <><td scope='col'><button  className="btn btn-dark mb-3" onClick={()=>{acceptProject(elem.pid)}} >Accept</button></td>
-        <td scope='col'><RejectModal pid={elem.pid} getProject={getProject}></RejectModal></td></>:<></>} 
-       {/* {(condition.message === 'In Progess')?<><td scope='col'><button  className="btn btn-dark mb-3" onClick={()=>{finalizeCondition(elem.pid)}} >Finalize</button></td></>:<></>} */}
-      <td> <ProjectDetaials info={{...elem}} from='mentor'></ProjectDetaials> 
+      <td> <ProjectDetaials info={{...elem}} from='admin'></ProjectDetaials> 
       </td>
       </tr>
     )
@@ -114,4 +106,4 @@ else setListProject(project)
     )
 }
 
-export default MentorHome
+export default MentorProjectList
