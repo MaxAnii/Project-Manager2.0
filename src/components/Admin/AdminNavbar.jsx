@@ -49,7 +49,7 @@ const AdminNavbar = (props) => {
               </li>
               <li className="nav-item">
                 <NavLink
-                  // to={`/MyInfo/${props.cc}/${props.id}`}
+                   to={`/AdminHome/${props.id}/${props.collegeCode}/personalinfo`}
                   className="navLink"
                 >
                   My Account

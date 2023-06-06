@@ -5,9 +5,13 @@ const router = express.Router();
 
 const {checkUserDetailsAlreadyExist,newUserSignUp,login,departmentListAndCollegeName} = require('../controllers/SignUpPage')
  const addMember = require('../controllers/addNewMember')
-const {getDashBoardInformation,getMentorList,getProjectMemberList} = require('../controllers/getData')
+const {getDashBoardInformation,getMentorList,getProjectMemberList,getPersonalInformation} = require('../controllers/getData')
 const {addNewProject,getProjectList,getMembertList, updateProjectStatus,deleteProject} = require('../controllers/projectAPI')
 const updateAddedUserInformation = require('../controllers/UpdateInformation')
+
+
+
+
 router.get('/signUp/',checkUserDetailsAlreadyExist)
 router.post('/signUp',newUserSignUp)
 router.get('/getDepartmentList/collegeName/:collegeCode',departmentListAndCollegeName);
@@ -22,6 +26,6 @@ router.get('/getmemberlist/:id',getMembertList)
 router.put('/updateprojectstatus/:type',updateProjectStatus)
 router.delete('/deleteproject/:id',deleteProject)
 router.put('/updateaddeduserinfo/:type',updateAddedUserInformation)
-
+router.get('/getpersonalinformation/:type/:id',getPersonalInformation)
 
 module.exports = router;

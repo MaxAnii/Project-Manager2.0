@@ -45,7 +45,14 @@ const getDashBoardInformation =async(req,res)=>{
         }
     }
 
-    
+    const getPersonalInformation=async(req,res)=>{
+        const{type,id}=req.params;
+        let data;
+        if(type == 'admin'){
+            data = await pool.query('SELECT * FROM admin WHERE "id"=$1',[id])          
+        }
+        res.json(data.rows[0]);
+    }
 
 
-    module.exports = {getDashBoardInformation,getMentorList,getProjectMemberList};
+    module.exports = {getDashBoardInformation,getMentorList,getProjectMemberList,getPersonalInformation};

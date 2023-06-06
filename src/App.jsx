@@ -14,6 +14,7 @@ import DepartmentMentorProjectList from "./components/Department/DepartmentMento
 import ListAllproject from "./components/Admin/ListAllProject";
 import ListDepartmentProject from "./components/Department/ListDepartmentProject";
 import ListDepartmentProjectInMentor from "./components/mentor/ListDepartmentProjectInMentor";
+import AdminPersonalInformation from "./components/Admin/AdminPersonalInformation";
 function App() {
   return (
     <>
@@ -32,7 +33,7 @@ function App() {
   <Route path="/AdminHome/:id/:collegeCode/departmentInfo/:dname" element={<DepartmentInfo></DepartmentInfo>}/>
   <Route path="/AdminHome/:id/:collegeCode/departmentInfo/:dname/mentorprojectlist/:mentorid" element={<MentorProjectList></MentorProjectList>}/>
   <Route path="/AdminHome/:id/:collegeCode/listallproject" element={<ListAllproject></ListAllproject>}/>
-  
+  <Route path="/AdminHome/:id/:collegeCode/personalinfo" element={<AdminPersonalInformation></AdminPersonalInformation>}/>
 
 
 

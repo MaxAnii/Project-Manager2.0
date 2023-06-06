@@ -17,6 +17,9 @@ const [ProjectDetails,setProjectDetails] = useState({
     status:props.info.status,
     reason:props.info.rejectReason
 })
+// if(ProjectDetails.finalizeDate != ""){
+//   setProjectDetails({...ProjectDetails,finalizeDate:props.info.finalizeDate.slice(0,20)})
+// }
 const [projectMember,setProjectMember] = useState([])
 
 

@@ -33,10 +33,8 @@ const SignUp = () => {
   })
 const [errorMessage,setErrorMessage] = useState('')
 const [show,setShow] = useState(false)
-const [departmaent,setDepartment]= useState([{
-  collegeName:"",
-  dname:""
-}])
+const [departmaent,setDepartment]= useState([])
+const [collegeName,setCollegeName]=useState()
 
 useEffect(()=>{
   
@@ -51,7 +49,12 @@ const getDepartmentList=async()=>{
       }
     });
   const data = await response.json();
-  setDepartment(data);
+  if(data.length){
+
+    setDepartment(data);
+    
+    setCollegeName(data[0].collegeName)
+  }
 }
 
 useEffect( ()=>{
@@ -134,9 +137,9 @@ navigate(`/StudentHome/${userInfo.id}/${userInfo.collegeCode}/${userInfo.dname}`
                 <label className="form-label">College Name</label>
                 {show? <>
                   <select className="form-select" 
-          value={userInfo.collegeName} onChange={e=>{setUserInfo({...userInfo,collgeName:e.target.value})}} required>
+           onChange={e=>{setUserInfo({...userInfo,collgeName:e.target.value})}} required>
                   
-                   <option>{departmaent[0].collegeName}</option>
+                   <option>{collegeName}</option>
 </select>
                 </>:<input type="name" className="form-control required"  placeholder="Enter Your College Name"  required
                   value={userInfo.collegeName} onChange={e=>{setUserInfo({...userInfo,collegeName:e.target.value})}}
@@ -155,7 +158,7 @@ navigate(`/StudentHome/${userInfo.id}/${userInfo.collegeCode}/${userInfo.dname}`
                 <select className="form-select" 
           value={userInfo.year} onChange={e=>{setUserInfo({...userInfo,year:e.target.value})}} required>
                   
-                   <option defaultValue >choose Department</option>
+                   <option defaultValue >Choose Year </option>
                    <option >1st</option>
                    <option  >2nd</option>
                    <option  >3rd </option>
