@@ -62,28 +62,20 @@ tr:nth-child(even) {
     justify-content: center;
 }
 
-.chlid1{
-    padding-top: 8vh;
-    display: flex;
-    justify-content: center;
-    text-align: center;
-}
+
 .info1{
-padding: 10%;
+    margin: 1vh 10vw;
+    border: 1px black solid  ;
+    padding-top: 20vh;
+text-align: center;
 font-size: large;
-   
+min-height:75vh;
+border: rgb(0, 0, 0) solid 3px;
+border-radius: 3%;
+box-shadow: 12px 12px 2px 1px rgba(0, 0, 255, .2);
 }
-.child2{
-    padding: 30px;
-    text-align: center;
-}
-.container1{
-    background-color: #ebe6e6;
-    margin: 5vh 15vw;
-    border: brown solid 3px;
-    border-radius: 3%;
-    box-shadow: 12px 12px 2px 1px rgba(0, 0, 255, .2);
-}
+
+
 .infoBtn{
 background-color:rebeccapurple;
 }

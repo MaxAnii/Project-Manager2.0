@@ -7,7 +7,7 @@ const {checkUserDetailsAlreadyExist,newUserSignUp,login,departmentListAndCollege
  const addMember = require('../controllers/addNewMember')
 const {getDashBoardInformation,getMentorList,getProjectMemberList,getPersonalInformation} = require('../controllers/getData')
 const {addNewProject,getProjectList,getMembertList, updateProjectStatus,deleteProject} = require('../controllers/projectAPI')
-const updateAddedUserInformation = require('../controllers/UpdateInformation')
+const {updateAddedUserInformation,updatePersonalInformation} = require('../controllers/UpdateInformation')
 
 
 
@@ -27,5 +27,6 @@ router.put('/updateprojectstatus/:type',updateProjectStatus)
 router.delete('/deleteproject/:id',deleteProject)
 router.put('/updateaddeduserinfo/:type',updateAddedUserInformation)
 router.get('/getpersonalinformation/:type/:id',getPersonalInformation)
+router.put('/updatepersonalinformation/:type',updatePersonalInformation)
 
 module.exports = router;

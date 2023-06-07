@@ -18,7 +18,23 @@ else{
 
 }
 
+const updatePersonalInformation=async (req,res)=>{
+   try {
+    const {type}=req.params;
+    if(type === 'admin'){
+        const {collegeName,collegeCode,email,password,id} = req.body;
+        console.log(req.body)
+        await pool.query('UPDATE admin SET "collegeName"=$1,"collegeCode"=$2,"email"=$3,"password"=$4 WHERE "id"=$5' ,[
+            collegeName,collegeCode,email,password,id
+        ])
+    }
+   } catch (error) {
+    console.log(error)
+   }
+
+}
 
 
 
-module.exports = updateAddedUserInformation
+
+module.exports = {updateAddedUserInformation,updatePersonalInformation}

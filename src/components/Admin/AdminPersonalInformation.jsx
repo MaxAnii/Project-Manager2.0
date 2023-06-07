@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import AdminNavbar from "./AdminNavbar";
 import Footer from "../Footer";
+import EditAdminPersonalInfo from "./EditAdminPersonalInfo";
 
 
 const AdminPersonalInformation = () => {
@@ -34,7 +35,7 @@ const AdminPersonalInformation = () => {
         {/* <Title collegecode={params.cc} collegelogo={image}></Title> */}
    
            
-            <div className="info1" style={{minHeight:"75vh"}}>
+            <div className="info1" >
             <div className="col-12">
               <label className="form-label" style={{ fontWeight: "bold" }}>College Name</label>
               <p >{userdata.collegeName}</p>
@@ -47,10 +48,10 @@ const AdminPersonalInformation = () => {
               <label className="form-label" style={{ fontWeight: "bold" }}>Email</label>
               <p >{userdata.email}</p>
             </div>
-      <button className="btn btn-primary">edit</button>
+     
        
         
-
+<EditAdminPersonalInfo userinfo={{...userdata}}></EditAdminPersonalInfo>
 
             {/* <InfoEdit userinfo={{ ...userdata }}></InfoEdit> */}
        
