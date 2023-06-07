@@ -73,9 +73,7 @@ navigate(`/mentordetails/${param.id}/${param.dname}/${param.cc}/${profid}`)
 }
   return (<>
  
-{/*   
 
-<HodNavbar id ={param.id} dname={param.dname} cc={param.cc}></HodNavbar> */}
 <DepartmentNavbar id={param.id} collegeCode={param.collegeCode} dname={param.dname}></DepartmentNavbar>
 <div className='background'>
 

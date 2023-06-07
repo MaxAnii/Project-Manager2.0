@@ -1,5 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import Logout from "../Logout";
 //  import "./admin.css";
 // import Logout from "../Logout";
 const AdminNavbar = (props) => {
@@ -57,7 +58,7 @@ const AdminNavbar = (props) => {
               </li>
 
               <li className="nav-item">
-                {/* <Logout></Logout> */}
+               <Logout></Logout>
               </li>
             </ul>
           </div>

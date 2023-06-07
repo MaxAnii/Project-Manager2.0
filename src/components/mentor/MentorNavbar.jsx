@@ -1,5 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import Logout from "../Logout";
 
 // import Logout from "../Logout";
 const MentorNavbar = (props) => {
@@ -48,6 +49,7 @@ const MentorNavbar = (props) => {
               </li>
               <li className="nav-item">
                 <NavLink
+                   to={`/MentorHome/${props.id}/${props.collegeCode}/${props.dname}/personalInfo`}
                   // to={`/MyInfo/${props.cc}/${props.id}`}
                   className="navLink"
                 >
@@ -56,7 +58,7 @@ const MentorNavbar = (props) => {
               </li>
 
               <li className="nav-item">
-                {/* <Logout></Logout> */}
+           <Logout></Logout>
               </li>
             </ul>
           </div>

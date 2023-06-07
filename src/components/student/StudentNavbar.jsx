@@ -1,5 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import Logout from "../Logout";
 
 // import Logout from "../Logout";
 const StudentNavbar = (props) => {
@@ -49,7 +50,8 @@ const StudentNavbar = (props) => {
               </li>
               <li className="nav-item">
                 <NavLink
-                  // to={`/MyInfo/${props.cc}/${props.id}`}
+                  to={`/StudentHome/${props.id}/${props.collegeCode}/${props.dname}/personalInfo`}
+                  
                   className="navLink"
                 >
                   My Account
@@ -57,8 +59,8 @@ const StudentNavbar = (props) => {
               </li>
 
               <li className="nav-item">
-                {/* <Logout></Logout> */}
-              </li>
+                <Logout></Logout>
+            </li>
             </ul>
           </div>
         </div>

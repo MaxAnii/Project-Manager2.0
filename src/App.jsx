@@ -15,6 +15,9 @@ import ListAllproject from "./components/Admin/ListAllProject";
 import ListDepartmentProject from "./components/Department/ListDepartmentProject";
 import ListDepartmentProjectInMentor from "./components/mentor/ListDepartmentProjectInMentor";
 import AdminPersonalInformation from "./components/Admin/AdminPersonalInformation";
+import DepartmentPersonalInfo from "./components/Department/DepartmentPersonalInfo";
+import MentorPersonalInfo from "./components/mentor/MentorPersonalInfo";
+import StudentPersonalInfo from "./components/student/StudentPersonalInfo";
 function App() {
   return (
     <>
@@ -44,6 +47,7 @@ function App() {
   <Route path='/DepartmentHome/:id/:collegeCode/:dname' element={<DepartmentHome></DepartmentHome>}/>
   <Route path='/DepartmentHome/:id/:collegeCode/:dname/mentorprojectlist/:mentorid' element={<DepartmentMentorProjectList></DepartmentMentorProjectList>}/>
   <Route path='/DepartmentHome/:id/:collegeCode/:dname/departmentprojectlist' element={<ListDepartmentProject></ListDepartmentProject>}/>
+  <Route path='/DepartmentHome/:id/:collegeCode/:dname/personalInfo' element={<DepartmentPersonalInfo></DepartmentPersonalInfo>}/>
 
 
 
@@ -64,6 +68,8 @@ function App() {
 
   <Route path="/MentorHome/:id/:collegeCode/:dname" element={<MentorHome></MentorHome>}/>
   <Route path="/MentorHome/:id/:collegeCode/:dname/getdepartmentlist" element={<ListDepartmentProjectInMentor></ListDepartmentProjectInMentor>}/>
+  <Route path="/MentorHome/:id/:collegeCode/:dname/personalInfo" element={<MentorPersonalInfo></MentorPersonalInfo>}/>
+  
 
 
 
@@ -81,6 +87,7 @@ function App() {
 
   <Route path="/StudentHome/:id/:collegeCode/:dname" element={<StudentHome></StudentHome>}/>
   <Route path='/AddNewProject/:id/:collegeCode/:dname' element={<AddNewProject></AddNewProject>}/>
+  <Route path="/StudentHome/:id/:collegeCode/:dname/personalInfo" element={<StudentPersonalInfo></StudentPersonalInfo>}/>
   </Routes>
    
    </BrowserRouter>
