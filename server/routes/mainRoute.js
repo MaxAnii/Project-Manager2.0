@@ -8,7 +8,7 @@ const {checkUserDetailsAlreadyExist,newUserSignUp,login,departmentListAndCollege
 const {getDashBoardInformation,getMentorList,getProjectMemberList,getPersonalInformation} = require('../controllers/getData')
 const {addNewProject,getProjectList,getMembertList, updateProjectStatus,deleteProject} = require('../controllers/projectAPI')
 const {updateAddedUserInformation,updatePersonalInformation} = require('../controllers/UpdateInformation')
-
+const forgetPasswordMail= require('../controllers/MailVerification')
 
 
 
@@ -28,5 +28,7 @@ router.delete('/deleteproject/:id',deleteProject)
 router.put('/updateaddeduserinfo/:type',updateAddedUserInformation)
 router.get('/getpersonalinformation/:type/:id',getPersonalInformation)
 router.put('/updatepersonalinformation/:type',updatePersonalInformation)
+
+router.post('/getforgotpasswordemail',forgetPasswordMail)
 
 module.exports = router;

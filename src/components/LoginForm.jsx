@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import { NavLink } from "react-router-dom";
 const LoginForm = () => {
   // localStorage.removeItem('auth')
   // localStorage.removeItem('JToken')
   // const {info} = useAuth();
-  // const userInformation = GolobalContext()
-
+ 
   const navigate = useNavigate();
 
   const [loginInfo, setLoginInfo] = useState({
@@ -17,11 +16,12 @@ const LoginForm = () => {
   });
 
   const [error, setError] = useState("");
+const [show,setShow] = useState(false);
 
   const login = async (e) => {
     e.preventDefault();
     setError("");
-
+    setShow(false);
     const response = await fetch(
       `http://localhost:5000/login/${loginInfo.collegeCode}/${loginInfo.email}/${loginInfo.password}/${loginInfo.desgination}`
     );
@@ -45,6 +45,7 @@ const LoginForm = () => {
       navigate(`/StudentHome/${data[0].id}/${data[0].collegeCode}/${data[0].dname}`)
     } else {
       setError("Details Not Exist");
+      setShow(true);
     }
   };
 
@@ -59,6 +60,23 @@ const LoginForm = () => {
           <h3>{error}</h3>
         </div>
         <form onSubmit={login}>
+        <div className="mb-3 ">
+              <label className="form-label">Desgination</label>
+              <select
+                className="form-select"
+                value={loginInfo.desgination}
+                onChange={(e) => {
+                  setLoginInfo({ ...loginInfo, desgination: e.target.value });
+                }}
+                required
+              >
+                <option defaultValue value="">Choose Your Desgination</option>
+                <option>Student</option>
+                <option>Professor</option>
+                <option>HOD</option>
+                <option>College Admin</option>
+              </select>
+            </div>
           <div className="contact-box  ">
             <div className="mb-3 ">
               <label className="form-label">College Code</label>
@@ -103,26 +121,13 @@ const LoginForm = () => {
                 }}
               />
             </div>
-            <div className="mb-3 ">
-              <label className="form-label">Desgination</label>
-              <select
-                className="form-select"
-                value={loginInfo.desgination}
-                onChange={(e) => {
-                  setLoginInfo({ ...loginInfo, desgination: e.target.value });
-                }}
-                required
-              >
-                <option defaultValue value=""></option>
-                <option>Student</option>
-                <option>Professor</option>
-                <option>HOD</option>
-                <option>College Admin</option>
-              </select>
-            </div>
-            <button type="submit" className="btn btn-dark toggle-disabled ">
+           <div className="forgot-container">
+
+            <button type="submit" className="btn btn-dark toggle-disabled login-btn">
               Login
             </button>
+             { show? <NavLink to='/forgot_password' className="forgot-password">Forgot Password?</NavLink> :""}
+           </div>
           </div>
         </form>
       </div>
