@@ -89,7 +89,7 @@ function App() {
   <Route path="/StudentHome/:id/:collegeCode/:dname" element={<StudentHome></StudentHome>}/>
   <Route path='/AddNewProject/:id/:collegeCode/:dname' element={<AddNewProject></AddNewProject>}/>
   <Route path="/StudentHome/:id/:collegeCode/:dname/personalInfo" element={<StudentPersonalInfo></StudentPersonalInfo>}/>
-   <Route path="//forgot_password" element={<ForgotPassword></ForgotPassword>}/>
+   <Route path="/forgot_password" element={<ForgotPassword></ForgotPassword>}/>
   </Routes>
    
 

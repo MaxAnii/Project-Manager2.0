@@ -53,6 +53,36 @@ const updatePersonalInformation=async (req,res)=>{
 }
 
 
+const updatePassword=async(req,res)=>{
+    const {desgination,id,password} = req.body;
+  
+    let data
+  
+    if(desgination === 'Student'){
+       data= await pool.query('UPDATE student SET  "password"=$1 WHERE "id"=$2 RETURNING *' ,[
+            password,id
+        ])
+    }
+    else if(desgination === 'HOD'){
+       data= await pool.query('UPDATE department SET  "password"=$1 WHERE "id"=$2 RETURNING *' ,[
+            password,id
+        ])
+    }
+   else if(desgination === 'College Admin'){
+       data= await pool.query('UPDATE admin SET  "password"=$1 WHERE "id"=$2 RETURNING *' ,[
+            password,id
+        ])
+    }
+    else{
+       data= await pool.query('UPDATE mentor SET  "password"=$1 WHERE "id"=$2 RETURNING *' ,[
+            password,id
+        ])
+
+    }
+    res.json(data.rows[0]);
+
+}
 
 
-module.exports = {updateAddedUserInformation,updatePersonalInformation}
+
+module.exports = {updateAddedUserInformation,updatePersonalInformation,updatePassword}
