@@ -45,8 +45,8 @@ const EditAdminPersonalInfo = (props) => {
       setMessage("Incorrect Password");
     } 
     else {
-      setMessage("Updating INfo");
-      console.log(userData)
+      setMessage("Updating Info");
+     
       await fetch("http://localhost:5000/updatepersonalinformation/admin", {
         method: "PUT",
         headers: {

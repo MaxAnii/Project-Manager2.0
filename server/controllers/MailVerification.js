@@ -3,15 +3,15 @@ const pool = require('../config/db');
 const transport = nodemailer.createTransport({
     service:"gmail",
     auth:{      
-        user:"projectmanager634@gmail.com",
-        pass:"ftnpmqenpwgsajjs" 
+        user:process.env.email,
+        pass:process.env.pass 
     },
 });
 
 
 const sendVerificationMail=(email,password,collegeCode,designation,collegeName,department)=>{
 const mailOptional={
-    from:"projectmanager634@gmail.com",
+    from:process.env.email,
     to:email,
     subject:"Registration Confirmation: Project Manager",
     html:`
@@ -20,7 +20,7 @@ const mailOptional={
     <p>
  
 <h4>
-   This mail is to inform you about the recent registration of your email address with the Project Manager as ${designation} for the ${department} at ${collegeName} with the college code ${collegeCode}. This software will facilitate efficient project management within the department and enable streamlined communication and collaboration among the faculty members.</h4>
+   This mail is to inform you about the recent registration of your email address with the Project Manager as ${designation} for the ${department} department at ${collegeName} with the college code ${collegeCode}. This software will facilitate efficient project management within the department and enable streamlined communication and collaboration among the faculty members.</h4>
     
   <h3>  Here are the details of your account registration:</h3>
     <h2>

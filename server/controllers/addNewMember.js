@@ -1,6 +1,7 @@
 const express = require("express");
 const pool = require("../config/db");
 const {sendVerificationMail} = require("./MailVerification")
+
  const addMember = async(req,res) =>{
      const {type} = req.params;
     let data,temp;
@@ -13,12 +14,12 @@ const {sendVerificationMail} = require("./MailVerification")
       
         temp = await pool.query('SELECT "collegeName" FROM admin WHERE "collegeCode"=$1',[collegeCode]);
         let collegeName = temp.rows[0].collegeName;
-        console.log(collegeName)
+       
         sendVerificationMail(email,password,collegeCode,"HOD",collegeName,dname);
     }
     else {
     const {id,profid,collegeCode,name,dname,email,password} = req.body;
-    console.log(id,profid,collegeCode,name,dname,email,password)
+
    data = await pool.query('INSERT INTO mentor VALUES($1,$2,$3,$4,$5,$6,$7) RETURNING *',[
         id,profid,collegeCode,name,dname,email,password
     ]);

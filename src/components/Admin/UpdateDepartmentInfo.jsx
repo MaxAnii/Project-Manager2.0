@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState } from 'react'
 const UpdateDepartmentInfo = (props) => {
-    console.log(props)
+ 
 
     const [newInfo,setnewInfo]= useState({
         id:props.id,
@@ -22,6 +22,7 @@ const UpdateDepartmentInfo = (props) => {
               },
               body:JSON.stringify(newInfo)
         })
+       props.updateInfo();
       }
   return (
     <div>

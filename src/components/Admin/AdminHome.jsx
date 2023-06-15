@@ -38,6 +38,7 @@ const getData=async()=>{
 })
  const data = await response.json();
  setDepartmentDetails(data);
+ console.log("hi")
 }
 const addNewDepartment=async(e)=>{
 
@@ -135,12 +136,10 @@ const seeDetails=(dname,cc)=>{
       <th  scope='col'>{elem.dname}</th>
       <td  scope="col">{elem.name}</td>
      
-{/* <td scope='col'><UpdateInfo id={elem.hodid} name={elem.name}
-  department={elem.dname} email={elem.email} desgination="College Admin" MainId={elem.id}
-/></td> */}
+
       <td scope='col'><button  className="btn btn-dark mb-3" onClick={()=> seeDetails(elem.dname)  }>See Details</button></td>
 <td scope='col'>
-<UpdateDepartmentInfo id={elem.id} hodid={ elem.hodid} name={elem.name} department={elem.dname} email={elem.email}></UpdateDepartmentInfo>
+<UpdateDepartmentInfo id={elem.id} hodid={ elem.hodid} name={elem.name} department={elem.dname} email={elem.email} updateInfo={getData}></UpdateDepartmentInfo>
 </td>
     </tr>
   )

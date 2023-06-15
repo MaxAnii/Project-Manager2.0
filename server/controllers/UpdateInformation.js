@@ -1,4 +1,5 @@
 const pool = require('../config/db')
+const {sendVerificationMail} = require('./MailVerification')
 
 const updateAddedUserInformation=async(req,res)=>{
     const {type} = req.params;
@@ -7,13 +8,24 @@ const {department,name,email,hodid,id} = req.body;
 
 await pool.query('UPDATE department SET "dname"=$1, "name"=$2, "email"=$3, "hodid"=$4 WHERE  "id"=$5',[
     department,name,email,hodid,id
-])  }
+]) 
+const data = await pool.query('SELECT department."password", department."collegeCode", admin."collegeName" FROM department,admin WHERE department."id"=$1 AND department."collegeCode" = admin."collegeCode"',[id]);
+const password = data.rows[0].password;
+const collegeCode = data.rows[0].collegeCode;
+const collegeName = data.rows[0].collegeName; 
+sendVerificationMail(email,password,collegeCode,"HOD",collegeName,department);
+}
 
 else{
     const {name,email,profId,id} = req.body;
     await pool.query('UPDATE mentor SET "name"=$1, "email"=$2, "profId"=$3 WHERE  "id"=$4',[
         name,email,profId,id
-    ]) 
+    ])
+    const data = await pool.query('SELECT mentor."password", mentor."collegeCode", admin."collegeName" FROM mentor,admin WHERE mentor."id"=$1 AND mentor."collegeCode" = admin."collegeCode"',[id]);
+const password = data.rows[0].password;
+const collegeCode = data.rows[0].collegeCode;
+const collegeName = data.rows[0].collegeName; 
+sendVerificationMail(email,password,collegeCode,"Professor",collegeName,department); 
 }
 
 }
