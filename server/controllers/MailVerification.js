@@ -1,13 +1,5 @@
-const nodemailer = require('nodemailer');
+const transport = require('../config/mail')
 const pool = require('../config/db');
-const transport = nodemailer.createTransport({
-    service:"gmail",
-    auth:{      
-        user:process.env.email,
-        pass:process.env.pass 
-    },
-});
-
 
 const sendVerificationMail=(email,password,collegeCode,designation,collegeName,department)=>{
 const mailOptional={

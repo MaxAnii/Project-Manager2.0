@@ -90,3 +90,7 @@ padding-top: 1vh;
   color: whitesmoke; 
 }
 
+.modal-close-btn{
+background-color: #ffffff;
+padding: 10px;
+}

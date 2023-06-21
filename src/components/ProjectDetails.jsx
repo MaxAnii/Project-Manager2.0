@@ -4,6 +4,7 @@ import './home.css'
 import RejectProjectReason from './RejectProjectReason'
 import { useEffect } from 'react'
 import { v4 } from 'uuid'
+import UploadReport from './UploadReport'
 
 const ProjectDetails = (props) => {
 
@@ -23,7 +24,7 @@ const [ProjectDetails,setProjectDetails] = useState({
 // }
 
 const [projectMember,setProjectMember] = useState([])
-
+const [reportList,setReportList] = useState([])
 
 const getMemberList=async()=>{
   const respone = await fetch(`http://localhost:5000/getmemberlist/${ProjectDetails.id}`);
@@ -31,11 +32,17 @@ const getMemberList=async()=>{
   setProjectMember(data)
 }
 
+const getProjectReport=async()=>{
+const respone = await fetch(`http://localhost:5000/getprojectreportlist/${ProjectDetails.id}`);
+const data = await respone.json();
+setReportList(data)
+}
+
 useEffect(()=>{
-  getMemberList()
+  getMemberList();
+  getProjectReport();
 },[])
-
-
+console.log(reportList)
 const updateProjectStatus=async(newStatus,rejectReason)=>{
     const newStatusObj = {
         id:ProjectDetails.id,
@@ -88,7 +95,7 @@ const deleteProject=()=>{
                 <div className="modal-content">
                     <div className="modal-header ">
                         <h5 className="modal-title">Project Details</h5>
-                        <button className="btn-close" type="button" data-bs-dismiss="modal"></button>
+                        <button className="btn-close modal-close-btn p-3 m-2" type="button" data-bs-dismiss="modal"></button>
                     </div>
                   
 
@@ -118,26 +125,7 @@ const deleteProject=()=>{
   required ></textarea>
 
   </div>
-  <div className="col-md-12">
-    <label  className="form-label" style={{display:'block'}}>Project Member</label>
-    { projectMember.map((elem,i)=>{
-      
-        return(
-         
-          <div className="col-md-3 " style={{display:'inline-flex',margin:'2px'}} key={v4()}>
-         
-  <input type="text" className="form-control form-label"  value={elem.studentId} readOnly
-  />
 
-</div>
-        
-        )
-    })
-
-    }
-    
-
-  </div>
   <div className="col-md-4">
   
     <label  className="form-label">Status</label>
@@ -157,7 +145,7 @@ const deleteProject=()=>{
   <div className="col-md-4">
     <label  className="form-label">Finalized Date</label>
 
-    <input type="text" className="form-control"  value={ProjectDetails.finalizeDate || ""} readOnly
+    <input type="text" className="form-control"  value={ProjectDetails.finalizeDate || "Not yet finalized"} readOnly
     />
 
   </div>:
@@ -172,7 +160,59 @@ const deleteProject=()=>{
   
   
   }
+  <div className="col-md-12">
+    <label  className="form-label" style={{display:'block'}}>Project Member</label>
+    { projectMember.map((elem)=>{
+      
+        return(
+         
+          <div className="col-md-3 " style={{display:'inline-flex',margin:'2px'}} key={v4()}>
+         
+  <input type="text" className="form-control form-label"  value={elem.studentId} readOnly
+  />
+
+</div>
+        
+        )
+    })
+
+    }
+    
+  
+
+  </div>
+
+
+  <div className="col-md-12">
+  <label className="form-label">Project Reports</label>
+       
+       {
+        reportList.map((elem)=>{
+          return(
+            <div key={v4()}>
+            <div className="input-group mt-2 mb-2">
+            <input
+             
+              className="form-control"
+            value={elem}
+            onChange={e=>{}}
+            />
+            <button  className="input-group-text">
+           See
+            </button>
+          </div>
+            </div>
+          )
+        })
+       }
+        </div>
+
 </form>
+{(props.from == 'student')?<>
+
+<label className="form-label"> Add Project Report</label>
+  <UploadReport projectId={props.info.id} ></UploadReport> 
+</>:""}
 
 </div>
                     <div className="modal-footer">
