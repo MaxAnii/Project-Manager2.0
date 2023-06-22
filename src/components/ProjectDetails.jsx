@@ -5,6 +5,7 @@ import RejectProjectReason from './RejectProjectReason'
 import { useEffect } from 'react'
 import { v4 } from 'uuid'
 import UploadReport from './UploadReport'
+import GetReport from './GetReport'
 
 const ProjectDetails = (props) => {
 
@@ -24,7 +25,7 @@ const [ProjectDetails,setProjectDetails] = useState({
 // }
 
 const [projectMember,setProjectMember] = useState([])
-const [reportList,setReportList] = useState([])
+
 
 const getMemberList=async()=>{
   const respone = await fetch(`http://localhost:5000/getmemberlist/${ProjectDetails.id}`);
@@ -32,17 +33,13 @@ const getMemberList=async()=>{
   setProjectMember(data)
 }
 
-const getProjectReport=async()=>{
-const respone = await fetch(`http://localhost:5000/getprojectreportlist/${ProjectDetails.id}`);
-const data = await respone.json();
-setReportList(data)
-}
+
 
 useEffect(()=>{
   getMemberList();
-  getProjectReport();
+ 
 },[])
-console.log(reportList)
+
 const updateProjectStatus=async(newStatus,rejectReason)=>{
     const newStatusObj = {
         id:ProjectDetails.id,
@@ -183,31 +180,11 @@ const deleteProject=()=>{
   </div>
 
 
-  <div className="col-md-12">
-  <label className="form-label">Project Reports</label>
-       
-       {
-        reportList.map((elem)=>{
-          return(
-            <div key={v4()}>
-            <div className="input-group mt-2 mb-2">
-            <input
-             
-              className="form-control"
-            value={elem}
-            onChange={e=>{}}
-            />
-            <button  className="input-group-text">
-           See
-            </button>
-          </div>
-            </div>
-          )
-        })
-       }
-        </div>
+  
 
 </form>
+
+<GetReport projectId={props.info.id}></GetReport>
 {(props.from == 'student')?<>
 
 <label className="form-label"> Add Project Report</label>

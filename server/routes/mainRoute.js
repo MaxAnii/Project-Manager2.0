@@ -9,7 +9,7 @@ const {getDashBoardInformation,getMentorList,getProjectMemberList,getPersonalInf
 const {addNewProject,getProjectList,getMembertList, updateProjectStatus,deleteProject} = require('../controllers/projectAPI')
 const {updateAddedUserInformation,updatePersonalInformation,updatePassword} = require('../controllers/UpdateInformation')
 const {forgetPasswordMail}= require('../controllers/MailVerification')
-const {uploadReport,getReportList,deleteProjectReports} = require('../controllers/projectReport');
+const {uploadReport,getReportList,setReportDetails,getReportDetails,downloadReport} = require('../controllers/projectReport');
 const {upload} = require('../config/s3');
 
 
@@ -33,7 +33,10 @@ router.put('/updatepersonalinformation/:type',updatePersonalInformation)
 router.post('/getforgotpasswordemail',forgetPasswordMail)
 router.post('/updateyourpassword',updatePassword)
 
-router.post ('/uploadreport',upload.single('files'),uploadReport);
-router.get('/getprojectreportlist/:id',getReportList);
-router.delete('/deleteprojectreports:id',deleteProjectReports)
+router.post('/uploadreportdetails',setReportDetails)
+router.get('/getreportdetails/:projectId',getReportDetails)
+router.post ('/uploadreport/:reportId',upload.single('files'),uploadReport);
+router.get('/getprojectreportlist/:fileName',getReportList);
+router.get('/downloadreport/:filename',downloadReport)
+// router.delete('/deleteprojectreports:id',deleteProjectReports)
 module.exports = router;
