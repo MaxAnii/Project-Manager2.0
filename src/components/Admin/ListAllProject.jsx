@@ -11,7 +11,8 @@ var row = 1;
 const[project,setProject] = useState([])
 const [listProject,setListProject]= useState([])
 const [filter,setFilter] = useState('')
-
+const [departmaent,setDepartment] = useState([])
+const [departmentFilter,setDepartmentFilter] = useState('')
 
 
 const getProject=async()=>{
@@ -25,20 +26,45 @@ const getProject=async()=>{
   setListProject(data)
       }
 
+      const getDepartmentList=async()=>{ 
+        const response = await fetch(`http://localhost:5000/getDepartmentList/collegeName/${param.collegeCode}`,
+        {
+          // headers:{
+          //   JToken:localStorage.getItem('JToken')
+          // }
+        });
+      const data = await response.json();
+      if(data.length){
+    
+        setDepartment(data);
+        
+      }
+    }
+
 useEffect(()=>{
-  getProject()
+  getProject();
+  getDepartmentList();
 },[])
 
 
 
 useEffect(()=>{
-  if(filter!= ''){
-    setListProject( project.filter((elem) => elem.status == filter)
+  console.log("filter"+filter)
+  console.log("dname"+departmentFilter)
+  if(filter != '' && departmentFilter !=''){
+    setListProject( project.filter((elem) => (elem.status == filter && elem.dname == departmentFilter))
     )
   }
-else setListProject(project)
-},[filter])
+  else if(filter != '' && departmentFilter ==='' ){
+    setListProject( project.filter((elem) => (elem.status == filter)))
+  }
+  else if(filter === '' && departmentFilter !=''){
 
+    setListProject( project.filter((elem) => (elem.dname == departmentFilter)))
+  }
+else setListProject(project)
+},[departmentFilter,filter])
+console.log(project)
 
     return (<>
   <AdminNavbar id={param.id} collegeCode={param.collegeCode} dname={param.dname}></AdminNavbar>
@@ -51,23 +77,43 @@ else setListProject(project)
   <div className='container-content'>
 
   <ul className=' row g-3 container-box'  type='none'>
-  <li className='col-auto' ><button  className="btn btn-dark mb-3" onClick={()=>{
-    setFilter('pending')
-  }}>Pending Project</button></li>
-  <li className='col-auto'> <button  className="btn btn-dark mb-3" onClick={()=>{
-    setFilter('In Progess')
-  }}>In Progess Project</button></li>
+  <li className='col-auto'>  <select className="btn btn-dark mb-3"
+                value={departmentFilter}
+                onChange={(e) => {setDepartmentFilter(e.target.value)
+                setFilter("")
+        
+                }}
+              >
+                <option value="">Filter By Department </option>
+                <option value="">All </option>
+                {
+                 departmaent.map((elem) => {
+                  return <option key={uuid()}>{elem.dname}</option>;
+                })
+                }
+              </select>
+              </li>
+  
+
 
 
 
   <li className='col-auto'><button  className="btn btn-dark mb-3" onClick={()=>{
     setFilter('Finalized')
+ 
   }}>Finalized Project</button></li>
+
+  <li className='col-auto'><button  className="btn btn-dark mb-3" onClick={()=>{
+    setFilter('In Progess')
+ 
+  }}>In progess</button></li>
 
 
   <li className='col-auto'><button  className="btn btn-dark mb-3" onClick={()=>{
     setFilter('')
   }}>All Project</button></li>
+
+
 </ul>
 
 

@@ -31,7 +31,7 @@ else if(type === 'mentor'){
     data = await pool.query('(SELECT project_detials."id", mentor."name", "projectName" ,"description" ,"StartDate","finalizeDate", "status" ,"rejectReason" FROM project_detials,mentor WHERE project_detials."mentorId"=$1 AND project_detials."mentorId"=mentor."id") ORDER BY "StartDate" DESC ',[id])
 }
 else if(type === 'admin'){
-    data = await pool.query('SELECT project_detials."id", "projectName" ,"description" ,"StartDate","finalizeDate","rejectReason", "status",mentor."name", "leaderId" FROM project_detials,mentor WHERE  mentor."id" = "mentorId" AND "mentorId" IN (SELECT "id" FROM mentor WHERE "collegeCode"=$1)',[id])
+    data = await pool.query('SELECT project_detials."id", "dname","projectName" ,"description" ,"StartDate","finalizeDate","rejectReason", "status",mentor."name", "leaderId" FROM project_detials,mentor WHERE  mentor."id" = "mentorId" AND "mentorId" IN (SELECT "id" FROM mentor WHERE "collegeCode"=$1)',[id])
 }
 else {
     console.log(dname)

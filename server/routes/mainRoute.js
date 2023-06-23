@@ -9,14 +9,14 @@ const {getDashBoardInformation,getMentorList,getProjectMemberList,getPersonalInf
 const {addNewProject,getProjectList,getMembertList, updateProjectStatus,deleteProject} = require('../controllers/projectAPI')
 const {updateAddedUserInformation,updatePersonalInformation,updatePassword} = require('../controllers/UpdateInformation')
 const {forgetPasswordMail}= require('../controllers/MailVerification')
-const {uploadReport,getReportList,setReportDetails,getReportDetails,downloadReport} = require('../controllers/projectReport');
+const {uploadReport,getReportList,setReportDetails,getReportDetails,deleteReport} = require('../controllers/projectReport');
 const {upload} = require('../config/s3');
 
 
 router.get('/signUp/',checkUserDetailsAlreadyExist)
 router.post('/signUp',newUserSignUp)
 router.get('/getDepartmentList/collegeName/:collegeCode',departmentListAndCollegeName);
-router.get('/login/:collegeCode/:email/:password/:designation',login)
+router.get('/login/:collegeCode/:email/:password/:designation',login) // post karna hai
 router.post('/addNewMember/:type',addMember)
 router.get('/getInformationDashBoard/:type/:collegeCode/:dname?',getDashBoardInformation)
 router.get('/getProjectMentorList/:type/:collegeCode/:dname?',getMentorList)
@@ -37,6 +37,6 @@ router.post('/uploadreportdetails',setReportDetails)
 router.get('/getreportdetails/:projectId',getReportDetails)
 router.post ('/uploadreport/:reportId',upload.single('files'),uploadReport);
 router.get('/getprojectreportlist/:fileName',getReportList);
-router.get('/downloadreport/:filename',downloadReport)
-// router.delete('/deleteprojectreports:id',deleteProjectReports)
+router.delete('/deletereport/:reportId',deleteReport)
+
 module.exports = router;

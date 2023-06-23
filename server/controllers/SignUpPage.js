@@ -23,7 +23,7 @@ const departmentListAndCollegeName =async(req,res)=>{
 
    console.log("asdfsa",req.params)
    const {collegeCode} = req.params;
-   const data = await pool.query('select "collegeName", "dname" from admin a, department d where a."collegeCode" = $1 and d."collegeCode" =$1',
+   const data = await pool.query('(SELECT "collegeName", "dname" FROM admin a, department d WHERE a."collegeCode" = $1 AND d."collegeCode"  =$1) ORDER BY "dname" ASC',
    [collegeCode]);
    res.json(data.rows);
 }

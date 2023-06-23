@@ -147,6 +147,16 @@ const seeDetails=(dname,cc)=>{
     
   </tbody>
 </table>
+
+
+
+
+
+
+
+
+
+
   </>
   )
 }

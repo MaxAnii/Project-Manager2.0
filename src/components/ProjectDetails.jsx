@@ -85,6 +85,7 @@ const deleteProject=()=>{
 
   return (
     <div>
+
            <button className="btn btn-dark" type="button" data-bs-target={`#myModal${ProjectDetails.id}`} data-bs-toggle="modal">See Details</button>
 
         <div className="modal fade" id={`myModal${ProjectDetails.id}`}>
@@ -184,8 +185,9 @@ const deleteProject=()=>{
 
 </form>
 
-<GetReport projectId={props.info.id}></GetReport>
-{(props.from == 'student')?<>
+<GetReport projectId={props.info.id} from={props.from}></GetReport>
+{
+  (props.from == 'student')? <>
 
 <label className="form-label"> Add Project Report</label>
   <UploadReport projectId={props.info.id} ></UploadReport> 

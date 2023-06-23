@@ -1,4 +1,5 @@
-const {  GetObjectCommand, ListObjectsV2Command } = require("@aws-sdk/client-s3");
+const {  GetObjectCommand, ListObjectsV2Command,DeleteObjectCommand } = require("@aws-sdk/client-s3");
+
 const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
 const {s3Client} = require('../config/s3')
 const pool = require('../config/db');
@@ -13,6 +14,7 @@ const {projectId,reportId,name} = req.body;
 res.status(200).send("success");
 }
 
+
 const getReportDetails = async(req,res)=>{
 const {projectId} = req.params;
 const data = await pool.query('SELECT * FROM project_report WHERE "projectId"=$1',[projectId]);
@@ -21,91 +23,81 @@ res.json(data.rows);
 }
 
 const uploadReport= async (req,res)=>{
-    res.send('Successfully uploaded ' + req.file.location);
+    res.status(200).send('Successfully uploaded');
 }
 
 
 
 
 
-const getReportList=async (req, res) => {
-    const {fileName} = req.params;
+const getReportList = async (req, res) => {
+  const { fileName } = req.params;
 
-    // const command = new GetObjectCommand({
-    //     Bucket: process.env.BUCKET,
-    //     Key:fileName,
-    // });
+  const command = new GetObjectCommand({
+    Bucket: process.env.BUCKET,
+    Key: fileName,
+  });
 
-    // try {
-    //     const response = await s3Client.send(command);
-    //     if(response){
-    //         const files = response.Contents.map((item) => {
-    //             const signedUrl = getSignedUrl(s3Client, new GetObjectCommand({
-    //                 Bucket: process.env.BUCKET,
-    //                 Key: item.Key,
-    //                 expires: 3600,
-    //             }));
-    //             return {
-    //                 Key: item.Key,
-    //                 URL: signedUrl,
-    //             };
-    //         });
-    
-    //         res.send(`
-    //             <html>
-    //                 <head>
-    //                     <title>File List</title>
-    //                 </head>
-    //                 <body>
-    //                     <h1>File List</h1>
-    //                     <ul>
-    //                         ${files.map(file => `<li><a href="${file.URL}">${file.Key}</a></li>`).join('')}
-    //                     </ul>
-    //                 </body>
-    //             </html>
-    //         `);
-    //     }
-      
-    // } catch (error) {
-    //     console.error(error);
-    //     res.status(500).send("Error retrieving file list");
-    // }
+  try {
+    const signedUrl = await getSignedUrl(s3Client, command, { expiresIn: 3600 });
+ 
+  
+    res.send(signedUrl);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error generating signed URL");
+  }
+  
 };
 
 
-// const deleteProjectReports=async(req,res)=>{
-//     const {fileName} =req.params;
-//     await s3Client.deleteObject({Bucket: process.env.BUCKET,key:fileName}).promise();
-//     res.send("delete successfully") ;
-// }
+
+
+const deleteReport = async (req, res) => {
+  const { reportId } = req.params;
+  const key =`${reportId}.pdf`
+  const command = new DeleteObjectCommand({
+    Bucket: process.env.BUCKET,
+    Key: key,
+  });
+
+  try {
+    await s3Client.send(command);
+    await pool.query ('DELETE FROM project_report WHERE "reportId"=$1',[reportId])
+    res.send("File deleted successfully");
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error deleting file");
+  }
+};
 
 const downloadReport = async (req, res) => {
-    const { filename } = req.params;
-  console.log(filename)
-    const params = {
-      Bucket: process.env.BUCKET, // Replace with your S3 bucket name
-      Key: filename,
-    };
+    // const { filename } = req.params;
   
-    try {
-      // Create the GetObjectCommand
-      const command = new GetObjectCommand(params);
+    // const params = {
+    //   Bucket: process.env.BUCKET, // Replace with your S3 bucket name
+    //   Key: filename,
+    // };
   
-      // Execute the command to retrieve the file data
-      const response = await s3Client.send(command);
+    // try {
+    //   // Create the GetObjectCommand
+    //   const command = new GetObjectCommand(params);
   
-      // Set the appropriate headers for the file download
-    await  res.set({
-        'Content-Type': response.ContentType,
-        'Content-Length': response.ContentLength,
-        'Content-Disposition': `attachment; filename="${filename}"`,
-      });
+    //   // Execute the command to retrieve the file data
+    //   const response = await s3Client.send(command);
   
-      // Stream the file data to the response
-      await response.Body.pipe(res);
-    } catch (error) {
-      console.error(error);
-      res.status(500).send('Error downloading file');
-    }
+    //   // Set the appropriate headers for the file download
+    // await  res.set({
+    //     'Content-Type': response.ContentType,
+    //     'Content-Length': response.ContentLength,
+    //     'Content-Disposition': `attachment; filename="${filename}"`,
+    //   });
+  
+    //   // Stream the file data to the response
+    //   await response.Body.pipe(res);
+    // } catch (error) {
+    //   console.error(error);
+    //   res.status(500).send('Error downloading file');
+    // }
   };
-module.exports = {uploadReport,getReportList,setReportDetails,getReportDetails,downloadReport}
+module.exports = {uploadReport,getReportList,setReportDetails,getReportDetails,downloadReport,deleteReport}

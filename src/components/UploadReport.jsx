@@ -2,7 +2,7 @@ import React from "react";
 import { useState } from "react";
 import { v4 } from "uuid";
 const UploadReport = (props) => {
-  console.log(props.projectId)
+
   const [report, setReport] = useState({});
   const[message,setMessage] = useState("");
   const [reportDetails,setReportDetails] = useState({
@@ -23,22 +23,26 @@ const UploadReport = (props) => {
     const formData = new FormData();
     formData.append('files',report);
 
-console.log(reportDetails)
-     const data1 =  await fetch('http://localhost:5000/uploadreportdetails',{
-        method:"POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(reportDetails)}
-        )
-console.log(data1)
-   const data2 =  await fetch(`http://localhost:5000/uploadreport/${reportDetails.reportId}`,
-    {
-        method:"POST",
-        body:formData
-    })
-  console.log(data2)
+
+const data2 =  await fetch(`http://localhost:5000/uploadreport/${reportDetails.reportId}`,
+ {
+     method:"POST",
+     body:formData
+ })
+
+ if(data2.status === 200){
+
+   const data1 =  await fetch('http://localhost:5000/uploadreportdetails',{
+     method:"POST",
+     headers: {
+       Accept: "application/json",
+       "Content-Type": "application/json",
+      },
+      body: JSON.stringify(reportDetails)}
+      )
+    }
+
+  
   }
     
   setReportDetails({
