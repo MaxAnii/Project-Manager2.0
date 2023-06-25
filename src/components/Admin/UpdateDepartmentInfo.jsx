@@ -16,19 +16,20 @@ const UpdateDepartmentInfo = (props) => {
         await fetch("http://localhost:5000/updateaddeduserinfo/admin",{
             method:"PUT",
             headers: {
-            //   JToken:localStorage.getItem('JToken'),
+              JToken:localStorage.getItem('JToken'),
                 Accept: "application/json",
                 "Content-Type": "application/json",
               },
               body:JSON.stringify(newInfo)
         })
        props.updateInfo();
+       
       }
   return (
     <div>
       
 <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target={`#id${props.id}`}>
-edit
+Edit
 </button>
 
 
@@ -69,7 +70,7 @@ edit
 </form>
       </div>
       <div className="modal-footer">
-        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal" onClick={update}>Edit</button>
+        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal" onClick={update}>update</button>
       
       </div>
     </div>

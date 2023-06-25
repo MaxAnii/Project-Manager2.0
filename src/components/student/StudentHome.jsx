@@ -12,12 +12,12 @@ const [project,setProject] = useState([]);
 const [listProject,setListProject]= useState([])
 const [filter,setFilter] = useState('')
   const getProject=async()=>{
-    const respone = await fetch(`http://localhost:5000/getprojectlist/student/${param.id}`)
-    // {
-    //   headers:{
-    //     JToken:localStorage.getItem('JToken')
-    //   }
-    // });
+    const respone = await fetch(`http://localhost:5000/getprojectlist/student/${param.id}`,
+    {
+      headers:{
+        JToken:localStorage.getItem('JToken')
+      }
+    });
     const data = await respone.json();
     setProject(data)
     setListProject(data)

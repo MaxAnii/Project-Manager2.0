@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import {v4 as uuid } from 'uuid'
-// import useAuth from '../hooks/useAuth';
+
 import { useNavigate } from "react-router-dom";
 
+
 const SignUp = () => {
-//   localStorage.removeItem('auth')
-//   localStorage.removeItem('JToken')
-//   const {info} = useAuth();
+  localStorage.removeItem('Acess')
+  // localStorage.removeItem('JToken')
+
 
 
 
@@ -42,12 +43,7 @@ useEffect(()=>{
 },[userInfo.desgination])
 
 const getDepartmentList=async()=>{ 
-    const response = await fetch(`http://localhost:5000/getDepartmentList/collegeName/${userInfo.collegeCode}`,
-    {
-      headers:{
-        JToken:localStorage.getItem('JToken')
-      }
-    });
+    const response = await fetch(`http://localhost:5000/getDepartmentList/collegeName/${userInfo.collegeCode}`);
   const data = await response.json();
   if(data.length){
 
@@ -77,7 +73,9 @@ setErrorMessage("password is not matching");
 
 else{
 
- const response =  await fetch("http://localhost:5000/signUp", {
+  
+  const response =  await fetch("http://localhost:5000/signUp", {
+    withCredentials: true,
     method: "POST",
     headers: {
       Accept: "application/json",
@@ -86,25 +84,22 @@ else{
     body: JSON.stringify(userInfo),
   });
   const data = await response.json()
-
-
-  if(data.length !==0)
- {
-  // info.auth = true
-  // localStorage.setItem('auth',true);
-  // localStorage.setItem('JToken',data.JToken)
-
-  if(userInfo.desgination === 'College Admin')
-  navigate(`/AdminHome/${userInfo.id}/${userInfo.collegeCode}`)
-else
-navigate(`/StudentHome/${userInfo.id}/${userInfo.collegeCode}/${userInfo.dname}`)
-}
-
-
-}  
   
-
+  
+  if(data.length !==0)
+  {
+    
+    localStorage.setItem('Acces',true);
+    localStorage.setItem('JToken',data.JToken)
+    
+    if(userInfo.desgination === 'College Admin')
+    navigate(`/AdminHome/${userInfo.id}/${userInfo.collegeCode}`)
+    else
+    navigate(`/StudentHome/${userInfo.id}/${userInfo.collegeCode}/${userInfo.dname}`)
   }
+}
+  }
+  
   return (
    <>
 

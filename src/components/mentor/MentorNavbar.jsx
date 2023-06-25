@@ -1,9 +1,16 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink,useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import checkAccess from "../../checkAcces";
 import Logout from "../Logout";
 
-// import Logout from "../Logout";
 const MentorNavbar = (props) => {
+  const navigate = useNavigate()
+  useEffect(()=>{
+    if(!checkAccess()) {
+      navigate('/')
+    } 
+  })
   return (
     <>
       <div className="title"> 
@@ -50,7 +57,7 @@ const MentorNavbar = (props) => {
               <li className="nav-item">
                 <NavLink
                    to={`/MentorHome/${props.id}/${props.collegeCode}/${props.dname}/personalInfo`}
-                  // to={`/MyInfo/${props.cc}/${props.id}`}
+               
                   className="navLink"
                 >
                   My Account

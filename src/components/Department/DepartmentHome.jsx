@@ -3,9 +3,6 @@ import {NavLink, useParams} from 'react-router-dom'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import UpdateMentorInformation from './UpdateMentorInformation'
-// import UpdateInfo from '../UpdateInfo'
-// import HodNavbar from './HodNavbar'
-// import Title  from '../Title'
 import DepartmentNavbar from './DepartmentNavbar'
 import { v4 } from 'uuid'
 const DepartmentHome = () => {
@@ -47,7 +44,7 @@ console.log(newMentor)
 const response=await fetch(`http://localhost:5000/addNewMember/Department`, {
   method: "POST",
   headers: {
-  //   JToken:localStorage.getItem('JToken'),
+    JToken:localStorage.getItem('JToken'),
     Accept: "application/json",
     "Content-Type": "application/json",
   },

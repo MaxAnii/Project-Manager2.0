@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-
+const verifyjwt = require("../middlewear/verifyToken");
 
 
 const {checkUserDetailsAlreadyExist,newUserSignUp,login,departmentListAndCollegeName} = require('../controllers/SignUpPage')
@@ -13,30 +13,31 @@ const {uploadReport,getReportList,setReportDetails,getReportDetails,deleteReport
 const {upload} = require('../config/s3');
 
 
-router.get('/signUp/',checkUserDetailsAlreadyExist)
+router.post('/signup/checkdetailsexist/:type',checkUserDetailsAlreadyExist)
 router.post('/signUp',newUserSignUp)
 router.get('/getDepartmentList/collegeName/:collegeCode',departmentListAndCollegeName);
-router.get('/login/:collegeCode/:email/:password/:designation',login) // post karna hai
-router.post('/addNewMember/:type',addMember)
-router.get('/getInformationDashBoard/:type/:collegeCode/:dname?',getDashBoardInformation)
-router.get('/getProjectMentorList/:type/:collegeCode/:dname?',getMentorList)
-router.get('/getProjectMemberList/:type/:collegeCode/:dname?',getProjectMemberList)
-router.post('/addNewProject/:type',addNewProject)
-router.get('/getprojectlist/:type/:id/:dname?',getProjectList)
-router.get('/getmemberlist/:id',getMembertList)
-router.put('/updateprojectstatus/:type',updateProjectStatus)
-router.delete('/deleteproject/:id',deleteProject)
-router.put('/updateaddeduserinfo/:type',updateAddedUserInformation)
-router.get('/getpersonalinformation/:type/:id',getPersonalInformation)
-router.put('/updatepersonalinformation/:type',updatePersonalInformation)
+router.post('/login',login) 
 
-router.post('/getforgotpasswordemail',forgetPasswordMail)
-router.post('/updateyourpassword',updatePassword)
+router.post('/addNewMember/:type',verifyjwt,addMember)
+router.get('/getInformationDashBoard/:type/:collegeCode/:dname?',verifyjwt,getDashBoardInformation)
+router.get('/getProjectMentorList/:type/:collegeCode/:dname?',verifyjwt,getMentorList)
+router.get('/getProjectMemberList/:type/:collegeCode/:dname?',verifyjwt,getProjectMemberList)
+router.post('/addNewProject/:type',verifyjwt,addNewProject)
+router.get('/getprojectlist/:type/:id/:dname?',verifyjwt,getProjectList)
+router.get('/getmemberlist/:id',verifyjwt,getMembertList)
+router.put('/updateprojectstatus/:type',verifyjwt,updateProjectStatus)
+router.delete('/deleteproject/:id',verifyjwt,deleteProject)
+router.put('/updateaddeduserinfo/:type',verifyjwt,updateAddedUserInformation)
+router.get('/getpersonalinformation/:type/:id',verifyjwt,getPersonalInformation)
+router.put('/updatepersonalinformation/:type',verifyjwt,updatePersonalInformation)
 
-router.post('/uploadreportdetails',setReportDetails)
-router.get('/getreportdetails/:projectId',getReportDetails)
+router.post('/getforgotpasswordemail',verifyjwt,forgetPasswordMail)
+router.post('/updateyourpassword',verifyjwt,updatePassword)
+
+router.post('/uploadreportdetails',verifyjwt,setReportDetails)
+router.get('/getreportdetails/:projectId',verifyjwt,getReportDetails)
 router.post ('/uploadreport/:reportId',upload.single('files'),uploadReport);
-router.get('/getprojectreportlist/:fileName',getReportList);
-router.delete('/deletereport/:reportId',deleteReport)
+router.get('/getprojectreportlist/:fileName',verifyjwt,getReportList);
+router.delete('/deletereport/:reportId',verifyjwt,deleteReport)
 
 module.exports = router;

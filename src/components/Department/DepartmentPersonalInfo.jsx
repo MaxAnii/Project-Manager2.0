@@ -12,12 +12,12 @@ const DepartmentPersonalInfo = () => {
     const getdata = async () => {
       const response = await fetch(
         `http://localhost:5000/getpersonalinformation/department/${param.id}/`
-      //   ,
-      //   {
-      //     headers: {
-      //       JToken: localStorage.getItem("JToken"),
-      //     },
-      //   }
+        ,
+        {
+          headers: {
+            JToken: localStorage.getItem("JToken"),
+          },
+        }
       );
       const data = await response.json();
       setUserData(data);
@@ -65,10 +65,6 @@ const DepartmentPersonalInfo = () => {
        <EditDepartmentPersonalInfo userinfo={{...userdata}}></EditDepartmentPersonalInfo>
               </div>
          
-          
-  {/* <EditAdminPersonalInfo userinfo={{...userdata}}></EditAdminPersonalInfo> */}
-  
-              {/* <InfoEdit userinfo={{ ...userdata }}></InfoEdit> */}
          
           </div>
           </div>

@@ -20,15 +20,19 @@ const [ProjectDetails,setProjectDetails] = useState({
     reason:props.info.rejectReason
 })
 
-// if(ProjectDetails.finalizeDate != ""){
-//   setProjectDetails({...ProjectDetails,finalizeDate:props.info.finalizeDate.slice(0,20)})
-// }
+
 
 const [projectMember,setProjectMember] = useState([])
-
+const [deleteReport,setdeleteReport] = useState(false)
 
 const getMemberList=async()=>{
-  const respone = await fetch(`http://localhost:5000/getmemberlist/${ProjectDetails.id}`);
+  const respone = await fetch(`http://localhost:5000/getmemberlist/${ProjectDetails.id}`,
+  {
+    headers:{
+      JToken:localStorage.getItem('JToken')
+    }
+  }
+  );
   const data = await respone.json();
   setProjectMember(data)
 }
@@ -50,7 +54,7 @@ const updateProjectStatus=async(newStatus,rejectReason)=>{
      fetch(`http://localhost:5000/updateprojectstatus/notfinalize`, {
         method: "PUT",
         headers: {
-        //   JToken:localStorage.getItem('JToken'),
+          JToken:localStorage.getItem('JToken'),
           Accept: "application/json",
           "Content-Type": "application/json",
         },
@@ -69,7 +73,7 @@ const finalizeProject=()=>{
     fetch(`http://localhost:5000/updateprojectstatus/finalize`, {
         method: "PUT",
         headers: {
-        //   JToken:localStorage.getItem('JToken'),
+          JToken:localStorage.getItem('JToken'),
           Accept: "application/json",
           "Content-Type": "application/json",
         },
@@ -77,10 +81,19 @@ const finalizeProject=()=>{
       });
 
 
+      
 }
 const deleteProject=()=>{
+  setdeleteReport(true)
     fetch(`http://localhost:5000/deleteproject/${ProjectDetails.id}`, {
-        method: "DELETE"})
+
+        method: "DELETE",
+      headers:{
+        JToken:localStorage.getItem("JToken")
+      }
+      })
+     
+
 }
 
   return (
@@ -185,7 +198,7 @@ const deleteProject=()=>{
 
 </form>
 
-<GetReport projectId={props.info.id} from={props.from}></GetReport>
+<GetReport projectId={props.info.id} from={props.from} deleteAllReport={deleteReport}></GetReport>
 {
   (props.from == 'student')? <>
 

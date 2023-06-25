@@ -11,7 +11,7 @@ const MentorHome = () => {
 const[project,setProject] = useState([])
 const [listProject,setListProject]= useState([])
 const [filter,setFilter] = useState('')
-
+const [nameFilter,setNameFilter] = useState('')
 
 
 const getProject=async()=>{
@@ -29,14 +29,25 @@ useEffect(()=>{
 },[])
 
 
+const filterProject=()=>{
 
-useEffect(()=>{
   if(filter!= ''){
     setListProject( project.filter((elem) => elem.status == filter)
     )
   }
 else setListProject(project)
+}
+
+useEffect(()=>{
+filterProject()
 },[filter])
+
+useEffect(()=>{
+  if(nameFilter){
+    setListProject(project.filter((elem)=>(elem.projectName.includes(nameFilter))))
+  }
+else filterProject()
+},[nameFilter])
 
 
     return (<>
@@ -71,7 +82,10 @@ else setListProject(project)
   }}>All Project</button></li>
 </ul>
 
-
+<input type='text' placeholder="Search Project"
+   className='form-control mb-3 search-project'  
+   value={nameFilter} onChange={e=>{setNameFilter(e.target.value)}}
+   ></input>
 
   </div>
   </div>
@@ -95,12 +109,6 @@ else setListProject(project)
         <td scope="col">{elem.projectName}</td>
         <td scope="col">{elem.description}</td>
         <td scope="col">{elem.status}</td>
-
-        {/* {(condition.message === 'Finalized')?<td scope="col">{condition.message}</td>:<></>}
-        {(condition.message === 'Rejected')? <td scope="col">{elem.reason}</td>:<></>}
-        {/* {(condition.thead === 'New request')? <><td scope='col'><button  className="btn btn-dark mb-3" onClick={()=>{acceptProject(elem.pid)}} >Accept</button></td>
-        <td scope='col'><RejectModal pid={elem.pid} getProject={getProject}></RejectModal></td></>:<></>} 
-       {/* {(condition.message === 'In Progess')?<><td scope='col'><button  className="btn btn-dark mb-3" onClick={()=>{finalizeCondition(elem.pid)}} >Finalize</button></td></>:<></>} */}
       <td> <ProjectDetaials info={{...elem}} from='mentor'></ProjectDetaials> 
       </td>
       </tr>

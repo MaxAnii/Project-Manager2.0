@@ -1,9 +1,17 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import Logout from "../Logout";
-//  import "./admin.css";
-// import Logout from "../Logout";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import checkAccess from "../../checkAcces";
+
 const AdminNavbar = (props) => {
+  const navigate = useNavigate()
+  useEffect(()=>{
+    if(!checkAccess()) {
+      navigate('/')
+    } 
+  })
 
   return (
     <>

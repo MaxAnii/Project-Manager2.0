@@ -1,10 +1,17 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink ,useNavigate} from "react-router-dom";
+import { useEffect } from "react";
+import checkAccess from "../../checkAcces";
 import Logout from "../Logout";
 
-// import Logout from "../Logout";
-const StudentNavbar = (props) => {
 
+const StudentNavbar = (props) => {
+  const navigate = useNavigate()
+  useEffect(()=>{
+    if(!checkAccess()) {
+      navigate('/')
+    } 
+  })
   return (
     <>
       <div className="title"> 

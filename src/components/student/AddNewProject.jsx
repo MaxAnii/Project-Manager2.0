@@ -32,18 +32,42 @@ let year = new Date().getFullYear();
 
     const getData= async()=>{
       if(projectType === 'interDepartment'){
-      const mentorResponse= await fetch(`http://localhost:5000/getProjectMentorList/${projectType}/${param.collegeCode}/${param.dname}`)
+      const mentorResponse= await fetch(`http://localhost:5000/getProjectMentorList/${projectType}/${param.collegeCode}/${param.dname}`,
+      {
+        headers:{
+          JToken:localStorage.getItem("JToken")
+        }
+      }
+      )
       const mentorData =await mentorResponse.json()
       setMentor(mentorData)
-      const memberResponse = await fetch(`http://localhost:5000/getProjectMemberList/${projectType}/${param.collegeCode}/${param.dname}`)
+      const memberResponse = await fetch(`http://localhost:5000/getProjectMemberList/${projectType}/${param.collegeCode}/${param.dname}`,
+      {
+        headers:{
+          JToken:localStorage.getItem("JToken")
+        }
+      }
+      )
       const memberData = await memberResponse.json()
     setProjectMember(memberData)
     }
     else if(projectType === 'interCollege'){
-        const mentorResponse= await fetch(`http://localhost:5000/getProjectMentorList/${projectType}/${param.collegeCode}`)
+        const mentorResponse= await fetch(`http://localhost:5000/getProjectMentorList/${projectType}/${param.collegeCode}`,
+        {
+          headers:{
+            JToken:localStorage.getItem("JToken")
+          }
+        }
+        )
         const mentorData =await mentorResponse.json()
         setMentor(mentorData)
-      const memberResponse = await fetch(`http://localhost:5000/getProjectMemberList/${projectType}/${param.collegeCode}`)
+      const memberResponse = await fetch(`http://localhost:5000/getProjectMemberList/${projectType}/${param.collegeCode}`,
+      {
+        headers:{
+          JToken:localStorage.getItem("JToken")
+        }
+      }
+      )
       const memberData = await memberResponse.json()
     setProjectMember(memberData)
     }
@@ -76,7 +100,7 @@ const submitProject=async(e)=>{
  fetch("http://localhost:5000/addNewProject/project",{
        method:"POST",
        headers:{
-          //  JToken:localStorage.getItem('JToken'),
+           JToken:localStorage.getItem('JToken'),
            Accept:"application/json",
            "Content-Type":"application/json"
          },

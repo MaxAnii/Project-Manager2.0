@@ -27,6 +27,9 @@ const UploadReport = (props) => {
 const data2 =  await fetch(`http://localhost:5000/uploadreport/${reportDetails.reportId}`,
  {
      method:"POST",
+     headers:{
+      JToken:localStorage.getItem('JToken')
+     },
      body:formData
  })
 
@@ -35,6 +38,7 @@ const data2 =  await fetch(`http://localhost:5000/uploadreport/${reportDetails.r
    const data1 =  await fetch('http://localhost:5000/uploadreportdetails',{
      method:"POST",
      headers: {
+      JToken:localStorage.getItem('JToken'),
        Accept: "application/json",
        "Content-Type": "application/json",
       },
@@ -51,7 +55,7 @@ const data2 =  await fetch(`http://localhost:5000/uploadreport/${reportDetails.r
     reportId:v4()
   })
 
-
+alert("Report Add")
   }
 
 

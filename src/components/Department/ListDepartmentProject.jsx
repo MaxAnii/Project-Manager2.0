@@ -11,7 +11,7 @@ var row = 1;
 const[project,setProject] = useState([])
 const [listProject,setListProject]= useState([])
 const [filter,setFilter] = useState('')
-
+const [nameFilter,setNameFilter] = useState('')
 
 
 const getProject=async()=>{
@@ -29,17 +29,25 @@ useEffect(()=>{
   getProject()
 },[])
 
+const filterProject=()=>{
 
-
-useEffect(()=>{
   if(filter!= ''){
     setListProject( project.filter((elem) => elem.status == filter)
     )
   }
 else setListProject(project)
+}
+
+useEffect(()=>{
+filterProject()
 },[filter])
 
-
+useEffect(()=>{
+  if(nameFilter){
+    setListProject(project.filter((elem)=>(elem.projectName.includes(nameFilter))))
+  }
+else filterProject()
+},[nameFilter])
     return (<>
   <DepartmentNavbar id={param.id} collegeCode={param.collegeCode} dname={param.dname}></DepartmentNavbar>
 
@@ -70,7 +78,10 @@ else setListProject(project)
   }}>All Project</button></li>
 </ul>
 
-
+<input type='text' placeholder="Search Project"
+   className='form-control mb-3 search-project'  
+   value={nameFilter} onChange={e=>{setNameFilter(e.target.value)}}
+   ></input>
 
   </div>
   </div>

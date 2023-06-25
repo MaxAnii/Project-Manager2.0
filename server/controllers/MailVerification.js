@@ -71,7 +71,7 @@ const forgetPasswordMail = async(req,res)=>{
     const {desgination,collegeCode,email} = req.body;
  
     let data
-  
+  try {
     if(desgination === "College Admin"){
      
         data = await pool.query('SELECT * FROM admin WHERE "email"=$1 AND "collegeCode"=$2',[email,collegeCode]);
@@ -98,6 +98,10 @@ const forgetPasswordMail = async(req,res)=>{
      sendOTP(email,otp);
     }
     res.json(data.rows)
+  } catch (error) {
+    console.log(error)
+  }
+
 }
 
 

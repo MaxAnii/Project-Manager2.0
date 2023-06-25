@@ -12,12 +12,12 @@ const StudentPersonalInfo = () => {
     const getdata = async () => {
       const response = await fetch(
         `http://localhost:5000/getpersonalinformation/student/${param.id}/`
-      //   ,
-      //   {
-      //     headers: {
-      //       JToken: localStorage.getItem("JToken"),
-      //     },
-      //   }
+        ,
+        {
+          headers: {
+            JToken: localStorage.getItem("JToken"),
+          },
+        }
       );
       const data = await response.json();
       setUserData(data);
@@ -30,7 +30,7 @@ const StudentPersonalInfo = () => {
       <div>
        
        <StudentNavbar id={param.id} collegeCode={param.collegeCode} dname={param.dname}></StudentNavbar>
-       {/* <DepartmentNavbar id={param.id} collegeCode={param.collegeCode} dname={param.dname}></DepartmentNavbar> */}
+
         <div className="background" >
      
      
@@ -66,14 +66,8 @@ const StudentPersonalInfo = () => {
                 <p >{userdata.collegeName}</p>
               </div>
             <EditStudentPersonalInfo userinfo={{...userdata}}></EditStudentPersonalInfo>
-       {/* <EditDepartmentPersonalInfo userinfo={{...userdata}}></EditDepartmentPersonalInfo> */}
+      
               </div>
-         
-          
-  {/* <EditAdminPersonalInfo userinfo={{...userdata}}></EditAdminPersonalInfo> */}
-  
-              {/* <InfoEdit userinfo={{ ...userdata }}></InfoEdit> */}
-         
           </div>
           </div>
          

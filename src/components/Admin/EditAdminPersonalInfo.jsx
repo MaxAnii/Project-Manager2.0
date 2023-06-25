@@ -50,7 +50,7 @@ const EditAdminPersonalInfo = (props) => {
       await fetch("http://localhost:5000/updatepersonalinformation/admin", {
         method: "PUT",
         headers: {
-        //   JToken: localStorage.getItem("JToken"),
+          JToken: localStorage.getItem("JToken"),
           Accept: "application/json",
           "Content-Type": "application/json",
         },
@@ -135,12 +135,7 @@ const EditAdminPersonalInfo = (props) => {
                     }}
                   />
                 </div>
-                {/* <div className="col-auto">
-    <label>Name</label>
-      <input type="text" className="form-control"  placeholder="Name"  
-         required value={userData.name || ""} onChange={e=>{setUserData({...userData,name:e.target.value})}}
-      />
-    </div> */}
+  
           
                 <div className="col-auto">
                   <label>Change password</label>

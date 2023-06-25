@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { NavLink } from "react-router-dom";
+
 const LoginForm = () => {
-  // localStorage.removeItem('auth')
+
   // localStorage.removeItem('JToken')
-  // const {info} = useAuth();
- 
+  localStorage.removeItem('Acces')
+
+
   const navigate = useNavigate();
 
   const [loginInfo, setLoginInfo] = useState({
@@ -21,28 +23,41 @@ const [show,setShow] = useState(false);
   const login = async (e) => {
     e.preventDefault();
     setError("");
+    console.log(loginInfo)
     setShow(false);
     const response = await fetch(
-      `http://localhost:5000/login/${loginInfo.collegeCode}/${loginInfo.email}/${loginInfo.password}/${loginInfo.desgination}`
+      `http://localhost:5000/login`,
+      { 
+         withCredentials: true,
+        method:"POST",
+        headers:{
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+       
+        
+        body:JSON.stringify(loginInfo),
+        
+      }
+    
     );
 
     const data = await response.json();
  
     if (data.length !== 0) {
-      //    info.auth=true
-      //    localStorage.setItem("JToken", data.JToken);
-      // localStorage.setItem('auth',true)
-      // userInformation.setdata(data)
+      
+         localStorage.setItem("JToken", data.JToken);
+      localStorage.setItem("Acces",true);
       if (loginInfo.desgination === "College Admin")
-        navigate(`/AdminHome/${data[0].id}/${data[0].collegeCode}`);
+        navigate(`/AdminHome/${data.id}/${data.collegeCode}`);
       else if (loginInfo.desgination === "HOD")
         navigate(
-          `/DepartmentHome/${data[0].id}/${data[0].collegeCode}/${data[0].dname}`
+          `/DepartmentHome/${data.id}/${data.collegeCode}/${data.dname}`
         );
       else if (loginInfo.desgination === "Professor")
-        navigate(`/MentorHome/${data[0].id}/${data[0].collegeCode}/${data[0].dname}`);
+        navigate(`/MentorHome/${data.id}/${data.collegeCode}/${data.dname}`);
       else
-      navigate(`/StudentHome/${data[0].id}/${data[0].collegeCode}/${data[0].dname}`)
+      navigate(`/StudentHome/${data.id}/${data.collegeCode}/${data.dname}`)
     } else {
       setError("Details Not Exist");
       setShow(true);

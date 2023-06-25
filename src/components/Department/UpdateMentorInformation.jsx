@@ -16,7 +16,7 @@ const UpdateMentorInformation = (props) => {
         await fetch("http://localhost:5000/updateaddeduserinfo/department",{
             method:"PUT",
             headers: {
-            //   JToken:localStorage.getItem('JToken'),
+              JToken:localStorage.getItem('JToken'),
                 Accept: "application/json",
                 "Content-Type": "application/json",
               },

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useParams,useNavigate } from 'react-router-dom'
-// import "./hoddetails.css"
+
 import AdminNavbar from './AdminNavbar'
-// import Title from '../Title'
+
 const DepartmentInfo = () => {
   const navigate = useNavigate()
     var row=1
@@ -26,9 +26,7 @@ useEffect(()=>{
     getdata()
 },[])
 
-// const seeDetails=(profid)=>{
-//   navigate(`/home/${param.cc}/${param.id}/hoddetail/${param.dname}/profDetails/${profid}`)
-// }
+
 
   return (
     <>

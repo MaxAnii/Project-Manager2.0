@@ -19,6 +19,8 @@ import DepartmentPersonalInfo from "./components/Department/DepartmentPersonalIn
 import MentorPersonalInfo from "./components/mentor/MentorPersonalInfo";
 import StudentPersonalInfo from "./components/student/StudentPersonalInfo";
 import ForgotPassword from "./components/ForgotPassword";
+
+
 function App() {
   return (
     <>
@@ -28,6 +30,7 @@ function App() {
   
   <Routes>
   <Route path="/" element={<Home/>}/>
+
   <Route path="/loginSignup" element={<SignUpLogin></SignUpLogin>}/>
 
 
@@ -90,6 +93,11 @@ function App() {
   <Route path='/AddNewProject/:id/:collegeCode/:dname' element={<AddNewProject></AddNewProject>}/>
   <Route path="/StudentHome/:id/:collegeCode/:dname/personalInfo" element={<StudentPersonalInfo></StudentPersonalInfo>}/>
    <Route path="/forgot_password" element={<ForgotPassword></ForgotPassword>}/>
+
+
+
+
+
   </Routes>
    
 

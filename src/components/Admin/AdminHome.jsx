@@ -5,15 +5,16 @@ import UpdateDepartmentInfo from './UpdateDepartmentInfo'
 import { v4 as uuid } from 'uuid'
 import AdminNavbar from './AdminNavbar'
 import './admin.css'
-// import Title from './../Title'
+import checkAccess from '../../checkAcces'
+
 
 const AdminHome = () => {
+  const navigate = useNavigate()
 
 
 const param = useParams()
 
 var row = 1;
-const navigate = useNavigate()
 const [newHodDetails,setnewHodDetails]= useState({
     collegeCode:param.collegeCode,
     dname:"",
@@ -38,7 +39,7 @@ const getData=async()=>{
 })
  const data = await response.json();
  setDepartmentDetails(data);
- console.log("hi")
+
 }
 const addNewDepartment=async(e)=>{
 
@@ -47,7 +48,7 @@ e.preventDefault();
   const response=await fetch(`http://localhost:5000/addNewMember/College Admin`, {
     method: "POST",
     headers: {
-    //   JToken:localStorage.getItem('JToken'),
+      JToken:localStorage.getItem('JToken'),
       Accept: "application/json",
       "Content-Type": "application/json",
     },
@@ -124,7 +125,8 @@ const seeDetails=(dname,cc)=>{
       <th scope="col">#</th>
       <th scope="col">Department</th>
       <th scope="col">HOD Name</th>
-      <th scope="col">See Details</th>
+  <th></th>
+  <th></th>
 
     </tr>
   </thead>

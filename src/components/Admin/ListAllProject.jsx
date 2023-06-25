@@ -13,7 +13,7 @@ const [listProject,setListProject]= useState([])
 const [filter,setFilter] = useState('')
 const [departmaent,setDepartment] = useState([])
 const [departmentFilter,setDepartmentFilter] = useState('')
-
+const [nameFilter,setNameFilter] = useState('')
 
 const getProject=async()=>{
   const respone = await fetch(`http://localhost:5000/getprojectlist/admin/${param.collegeCode}`,
@@ -29,9 +29,9 @@ const getProject=async()=>{
       const getDepartmentList=async()=>{ 
         const response = await fetch(`http://localhost:5000/getDepartmentList/collegeName/${param.collegeCode}`,
         {
-          // headers:{
-          //   JToken:localStorage.getItem('JToken')
-          // }
+          headers:{
+            JToken:localStorage.getItem('JToken')
+          }
         });
       const data = await response.json();
       if(data.length){
@@ -46,14 +46,11 @@ useEffect(()=>{
   getDepartmentList();
 },[])
 
-
-
-useEffect(()=>{
-  console.log("filter"+filter)
-  console.log("dname"+departmentFilter)
+const filterProject=()=>{
+  
   if(filter != '' && departmentFilter !=''){
-    setListProject( project.filter((elem) => (elem.status == filter && elem.dname == departmentFilter))
-    )
+    setListProject( project.filter((elem) => (elem.status == filter && elem.dname == departmentFilter )
+    ))
   }
   else if(filter != '' && departmentFilter ==='' ){
     setListProject( project.filter((elem) => (elem.status == filter)))
@@ -63,8 +60,19 @@ useEffect(()=>{
     setListProject( project.filter((elem) => (elem.dname == departmentFilter)))
   }
 else setListProject(project)
+}
+
+useEffect(()=>{
+filterProject()
 },[departmentFilter,filter])
-console.log(project)
+
+useEffect(()=>{
+  if(nameFilter){
+    filterProject()
+    setListProject(project.filter((elem)=>(elem.projectName.includes(nameFilter))))
+  }
+else filterProject()
+},[nameFilter])
 
     return (<>
   <AdminNavbar id={param.id} collegeCode={param.collegeCode} dname={param.dname}></AdminNavbar>
@@ -76,10 +84,11 @@ console.log(project)
 
   <div className='container-content'>
 
-  <ul className=' row g-3 container-box'  type='none'>
+  <ul className=' row g-4 container-box'  type='none'>
   <li className='col-auto'>  <select className="btn btn-dark mb-3"
                 value={departmentFilter}
-                onChange={(e) => {setDepartmentFilter(e.target.value)
+                onChange={(e) => {
+                  setDepartmentFilter(e.target.value)
                 setFilter("")
         
                 }}
@@ -88,16 +97,11 @@ console.log(project)
                 <option value="">All </option>
                 {
                  departmaent.map((elem) => {
-                  return <option key={uuid()}>{elem.dname}</option>;
+                  return <option key={uuid()} >{elem.dname}</option>;
                 })
                 }
               </select>
               </li>
-  
-
-
-
-
   <li className='col-auto'><button  className="btn btn-dark mb-3" onClick={()=>{
     setFilter('Finalized')
  
@@ -113,8 +117,15 @@ console.log(project)
     setFilter('')
   }}>All Project</button></li>
 
-
 </ul>
+
+
+
+<input type='text' placeholder="Search Project"
+   className='form-control mb-3 search-project'  
+   value={nameFilter} onChange={e=>{setNameFilter(e.target.value)}}
+   ></input>
+
 
 
 
@@ -126,7 +137,7 @@ console.log(project)
         <th scope="col">#</th>
         <th scope="col">PROJECT NAME</th>
         <th scope='col'>Project discreption</th>
-        <th scope='col'>Status</th>
+        <th scope='col'>Department</th>
         
       </tr>
     </thead>
@@ -136,10 +147,9 @@ console.log(project)
             return(
       <tr key={uuid()}>
         <td scope="row" >{row++}</td>
-      
         <td scope="col">{elem.projectName}</td>
         <td scope="col">{elem.description}</td>
-        <td scope="col">{elem.status}</td>
+        <td scope="col">{elem.dname}</td>
 
       <td> <ProjectDetails info={{...elem}} from='admin'></ProjectDetails>
       </td>
