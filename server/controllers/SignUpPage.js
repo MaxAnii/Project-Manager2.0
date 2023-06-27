@@ -109,6 +109,9 @@ try {
 
   data.rows[0].JToken = token;
   res.json(data.rows[0])
+  }
+  else{
+   res.json(data.rows)
   } 
 
 } catch (error) {

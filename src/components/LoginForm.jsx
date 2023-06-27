@@ -23,7 +23,6 @@ const [show,setShow] = useState(false);
   const login = async (e) => {
     e.preventDefault();
     setError("");
-    console.log(loginInfo)
     setShow(false);
     const response = await fetch(
       `http://localhost:5000/login`,
@@ -34,16 +33,13 @@ const [show,setShow] = useState(false);
           Accept: "application/json",
           "Content-Type": "application/json",
         },
-       
-        
         body:JSON.stringify(loginInfo),
-        
       }
     
     );
 
     const data = await response.json();
- 
+   
     if (data.length !== 0) {
       
          localStorage.setItem("JToken", data.JToken);

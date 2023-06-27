@@ -16,10 +16,10 @@ const EditAdminPersonalInfo = (props) => {
     e.preventDefault();
     setShowPass(!showPass);
     setNewPass("");
-    setUserData({...userData,password:oldPass})
+    setUserData({ ...userData, password: oldPass });
   };
   const checkNewPass = () => {
-    if (newpass !== ""  &&  userData.password !== "" ) {
+    if (newpass !== "" && userData.password !== "") {
       if (newpass !== userData.password) {
         setMessage("password is not matching");
       } else {
@@ -38,15 +38,13 @@ const EditAdminPersonalInfo = (props) => {
 
   const updateInfo = async () => {
     setMessage("");
-    if(checkPass === ""){
-        setMessage('Please provide password')
-    }
-    else if (checkPass !== oldPass) {
+    if (checkPass === "") {
+      setMessage("Please provide password");
+    } else if (checkPass !== oldPass) {
       setMessage("Incorrect Password");
-    } 
-    else {
+    } else {
       setMessage("Updating Info");
-     
+
       await fetch("http://localhost:5000/updatepersonalinformation/admin", {
         method: "PUT",
         headers: {
@@ -56,7 +54,10 @@ const EditAdminPersonalInfo = (props) => {
         },
         body: JSON.stringify(userData),
       });
-     
+      props.getdata();
+      setCheckPass("");
+      setMessage("");
+      alert("Updated");
     }
   };
 
@@ -94,7 +95,10 @@ const EditAdminPersonalInfo = (props) => {
               ></button>
             </div>
 
-            <div className="modal-body background" style={{paddingBottom:"0"}}>
+            <div
+              className="modal-body background"
+              style={{ paddingBottom: "0" }}
+            >
               <form className="row g-3 ">
                 <div className="col-12">
                   <label>College Name</label>
@@ -135,8 +139,7 @@ const EditAdminPersonalInfo = (props) => {
                     }}
                   />
                 </div>
-  
-          
+
                 <div className="col-auto">
                   <label>Change password</label>
 
@@ -171,7 +174,10 @@ const EditAdminPersonalInfo = (props) => {
                         placeholder="Confirm Password"
                         required
                         onChange={(e) => {
-                         setUserData({...userData,password:e.target.value})
+                          setUserData({
+                            ...userData,
+                            password: e.target.value,
+                          });
                         }}
                       />
                     </div>
@@ -196,11 +202,22 @@ const EditAdminPersonalInfo = (props) => {
                 </div>
               </form>
             </div>
-                <div className="modal-footer" >
-          <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="submit" className="btn btn-primary" onClick={checkNewPass}>Update</button>
-        </div>
-         
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+              <button
+                type="submit"
+                className="btn btn-primary"
+                onClick={checkNewPass}
+              >
+                Update
+              </button>
+            </div>
           </div>
         </div>
       </div>

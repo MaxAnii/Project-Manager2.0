@@ -4,20 +4,18 @@ import AdminNavbar from "./AdminNavbar";
 import Footer from "../Footer";
 import EditAdminPersonalInfo from "./EditAdminPersonalInfo";
 
-
 const AdminPersonalInformation = () => {
   const params = useParams();
 
   const [userdata, setUserData] = useState([]);
   const getdata = async () => {
     const response = await fetch(
-      `http://localhost:5000/getpersonalinformation/admin/${params.id}/`
-    //   ,
-    //   {
-    //     headers: {
-    //       JToken: localStorage.getItem("JToken"),
-    //     },
-    //   }
+      `http://localhost:5000/getpersonalinformation/admin/${params.id}/`,
+      {
+        headers: {
+          JToken: localStorage.getItem("JToken"),
+        },
+      }
     );
     const data = await response.json();
     setUserData(data);
@@ -29,38 +27,40 @@ const AdminPersonalInformation = () => {
 
   return (
     <div>
-      <AdminNavbar collegeCode={params.collegeCode} id={params.id}></AdminNavbar>
+      <AdminNavbar
+        collegeCode={params.collegeCode}
+        id={params.id}
+      ></AdminNavbar>
 
-      <div className="background" >
-        {/* <Title collegecode={params.cc} collegelogo={image}></Title> */}
-   
-           
-            <div className="info1" >
-            <div className="col-12">
-              <label className="form-label" style={{ fontWeight: "bold" }}>College Name</label>
-              <p >{userdata.collegeName}</p>
-            </div>
-            <div className="col-12">
-              <label className="form-label" style={{ fontWeight: "bold" }}>College Code</label>
-              <p >{userdata.collegeCode}</p>
-            </div>
-            <div className="col-12">
-              <label className="form-label" style={{ fontWeight: "bold" }}>Email</label>
-              <p >{userdata.email}</p>
-            </div>
-     
-       
-        
-<EditAdminPersonalInfo userinfo={{...userdata}}></EditAdminPersonalInfo>
+      <div className="background">
+        <div className="info1">
+          <div className="col-12">
+            <label className="form-label" style={{ fontWeight: "bold" }}>
+              College Name
+            </label>
+            <p>{userdata.collegeName}</p>
+          </div>
+          <div className="col-12">
+            <label className="form-label" style={{ fontWeight: "bold" }}>
+              College Code
+            </label>
+            <p>{userdata.collegeCode}</p>
+          </div>
+          <div className="col-12">
+            <label className="form-label" style={{ fontWeight: "bold" }}>
+              Email
+            </label>
+            <p>{userdata.email}</p>
+          </div>
 
-            {/* <InfoEdit userinfo={{ ...userdata }}></InfoEdit> */}
-       
+          <EditAdminPersonalInfo
+            userinfo={{ ...userdata }}
+            getdata={getdata}
+          ></EditAdminPersonalInfo>
         </div>
-        </div>
-        <div className="college-info" >
- 
-        </div>
-   
+      </div>
+      <div className="college-info"></div>
+
       <Footer></Footer>
     </div>
   );

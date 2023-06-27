@@ -94,3 +94,6 @@ padding-top: 1vh;
 background-color: #ffffff;
 padding: 10px;
 }
+.delete-report:hover{
+  background-color: red;
+}
