@@ -15,11 +15,12 @@ const GetReport = (props) => {
       }
     );
     const data = await response.json();
+
     setReportDetails(data);
   };
 
   const getProjectReport = async () => {
-    const reportUrl = reportDetails.map(async (elem) => {
+    const reportUrlPromises = reportDetails.map(async (elem) => {
       const response = await fetch(
         `http://localhost:5000/getprojectreportlist/${elem.reportId}.pdf`,
         {
@@ -28,10 +29,13 @@ const GetReport = (props) => {
           },
         }
       );
-      return response.url;
+      const data = await response.text();
+      return data;
     });
+    const reportUrls = await Promise.all(reportUrlPromises);
+    console.log(reportUrls);
 
-    setReportList(reportUrl);
+    setReportList(reportUrls);
   };
 
   useEffect(() => {

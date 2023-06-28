@@ -84,7 +84,7 @@ router.post("/updateyourpassword", verifyjwt, updatePassword);
 router.post("/uploadreportdetails", verifyjwt, setReportDetails);
 router.get("/getreportdetails/:projectId", verifyjwt, getReportDetails);
 router.post("/uploadreport/:reportId", upload.single("files"), uploadReport);
-router.get("/getprojectreportlist/:fileName", verifyjwt, getReportList);
+router.get("/getprojectreportlist/:fileName", getReportList);
 router.delete("/deletereport/:reportId", verifyjwt, deleteReport);
 
 module.exports = router;
