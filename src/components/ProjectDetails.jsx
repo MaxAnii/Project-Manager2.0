@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import { v4 } from "uuid";
 import UploadReport from "./UploadReport";
 import GetReport from "./GetReport";
+import Loader from "./Loader";
 
 const ProjectDetails = (props) => {
   const [ProjectDetails, setProjectDetails] = useState({
@@ -22,7 +23,9 @@ const ProjectDetails = (props) => {
   const [projectMember, setProjectMember] = useState([]);
   const [deleteReport, setdeleteReport] = useState(false);
   const [getReportList, setGetReportList] = useState(false);
+  const [showLoader, setShowLoader] = useState(false);
   const getMemberList = async () => {
+    setShowLoader(true);
     const respone = await fetch(
       `http://localhost:5000/getmemberlist/${ProjectDetails.id}`,
       {
@@ -32,7 +35,9 @@ const ProjectDetails = (props) => {
       }
     );
     const data = await respone.json();
+
     setProjectMember(data);
+    setShowLoader(false);
   };
 
   useEffect(() => {
@@ -112,9 +117,8 @@ const ProjectDetails = (props) => {
 
             <div className="project-details modal-body">
               <form className="row g-3 FormContainer">
-                <div className="col-md-12 "></div>
                 <div className="col-md-6">
-                  <label className="form-label">Project Name:-</label>
+                  <label className="form-label">Project Name</label>
                   <input
                     type="text"
                     className="form-control"
@@ -197,32 +201,46 @@ const ProjectDetails = (props) => {
                   <label className="form-label" style={{ display: "block" }}>
                     Project Member
                   </label>
-                  {projectMember.map((elem) => {
-                    return (
-                      <div
-                        className="col-md-3 "
-                        style={{ display: "inline-flex", margin: "2px" }}
-                        key={v4()}
-                      >
-                        <input
-                          type="text"
-                          className="form-control form-label"
-                          value={elem.studentId}
-                          readOnly
-                        />
-                      </div>
-                    );
-                  })}
+                  {showLoader ? (
+                    <div className="spinner-border" role="status">
+                      <span className="sr-only"></span>
+                    </div>
+                  ) : (
+                    projectMember.map((elem) => {
+                      return (
+                        <div
+                          className="col-md-3 "
+                          style={{ display: "inline-flex", margin: "2px" }}
+                          key={v4()}
+                        >
+                          <input
+                            type="text"
+                            className="form-control form-label"
+                            value={elem.studentId}
+                            readOnly
+                          />
+                        </div>
+                      );
+                    })
+                  )}
                 </div>
               </form>
 
-              <GetReport
-                projectId={props.info.id}
-                from={props.from}
-                deleteAllReport={deleteReport}
-                getReportList={getReportList}
-              ></GetReport>
-              {props.from == "student" ? (
+              {props.info.status == "In Progess" ||
+              props.info.status == "Finalized" ? (
+                <>
+                  <GetReport
+                    projectId={props.info.id}
+                    from={props.from}
+                    deleteAllReport={deleteReport}
+                    getReportList={getReportList}
+                  ></GetReport>
+                </>
+              ) : (
+                ""
+              )}
+
+              {props.from == "student" && props.info.status == "In Progess" ? (
                 <>
                   <label className="form-label"> Add Project Report</label>
                   <UploadReport

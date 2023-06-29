@@ -9,7 +9,9 @@ const UploadReport = (props) => {
     reportId: v4(),
     projectId: props.projectId,
   });
+  const [showLoader, setShowLoader] = useState(false);
   const uploadReport = async (e) => {
+    setShowLoader(true);
     setMessage("");
     e.preventDefault();
     const fileName = report.name.split(".");
@@ -42,43 +44,81 @@ const UploadReport = (props) => {
           },
           body: JSON.stringify(reportDetails),
         });
+        props.setGetReportList(!props.getReportList);
+        setReportDetails({
+          projectId: props.projectId,
+          name: "",
+          reportId: v4(),
+        });
+        setShowLoader(false);
       }
-      props.setGetReportList(!props.getReportList);
     }
-
-    setReportDetails({
-      projectId: props.projectId,
-      name: "",
-      reportId: v4(),
-    });
   };
 
   return (
     <div>
-      <form onSubmit={uploadReport}>
-        <div className="col-md-12">
-          <div className="input-group">
-            <input
-              type="text"
-              className="form-control "
-              placeholder="enter the file name"
-              value={reportDetails.name}
-              onChange={(e) =>
-                setReportDetails({ ...reportDetails, name: e.target.value })
-              }
-              required
-            ></input>
-            <input
-              type="file"
-              className="form-control "
-              id="inputGroupFile02"
-              required
-              onChange={(e) => setReport(e.target.files[0])}
-            />
+      {/* <form onSubmit={uploadReport}> */}
+      {/* <div className="col-md-6">
+          <input
+            type="text"
+            className="form-control"
+            placeholder="enter the file name"
+            value={reportDetails.name}
+            onChange={(e) =>
+              setReportDetails({ ...reportDetails, name: e.target.value })
+            }
+            required
+          ></input>
+        </div>
+
+        <div className="col-md-6">
+          <input
+            type="file"
+            className="form-control "
+            id="inputGroupFile02"
+            required
+            onChange={(e) => setReport(e.target.files[0])}
+          />
+        </div> */}
+      <form className="row g-3 FormContainer" onSubmit={uploadReport}>
+        <div className="col-md-5">
+          <input
+            type="text"
+            className="form-control"
+            placeholder="enter the file name"
+            value={reportDetails.name}
+            onChange={(e) =>
+              setReportDetails({ ...reportDetails, name: e.target.value })
+            }
+            required
+          ></input>
+        </div>
+        <div className="col-md-5">
+          <input
+            type="file"
+            className="form-control "
+            id="inputGroupFile02"
+            required
+            onChange={(e) => setReport(e.target.files[0])}
+          />
+        </div>
+        <div className="col-md-2">
+          {showLoader ? (
+            <>
+              <button className="btn btn-primary" type="button" disabled>
+                <span
+                  class="spinner-border spinner-border-sm"
+                  role="status"
+                  aria-hidden="true"
+                ></span>
+                Uploading...
+              </button>
+            </>
+          ) : (
             <button type="submit" className="input-group-text">
               Upload
             </button>
-          </div>
+          )}
         </div>
       </form>
       <p style={{ color: "red" }}>{message}</p>

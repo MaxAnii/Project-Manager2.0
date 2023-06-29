@@ -1,5 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
+import EditProfileLoader from "../EditProfileLoader";
+
 const EditStudentPersonalInfo = (props) => {
   const [userData, setUserData] = useState({});
   const [oldPass, setOldPass] = useState("");
@@ -7,6 +9,8 @@ const EditStudentPersonalInfo = (props) => {
   const [message, setMessage] = useState("");
   const [showPass, setShowPass] = useState(false);
   const [newpass, setNewPass] = useState("");
+  const [showLoader, setShowLoader] = useState(false);
+
   useEffect(() => {
     setUserData({ ...props.userinfo });
     setOldPass(props.userinfo.password);
@@ -43,8 +47,8 @@ const EditStudentPersonalInfo = (props) => {
     } else if (checkPass !== oldPass) {
       setMessage("Incorrect Password");
     } else {
-      setMessage("Updating INfo");
-      console.log(userData);
+      setMessage("Updating profile...");
+      setShowLoader(true);
       await fetch("http://localhost:5000/updatepersonalinformation/student", {
         method: "PUT",
         headers: {
@@ -57,7 +61,8 @@ const EditStudentPersonalInfo = (props) => {
       props.getData();
       setMessage("");
       setCheckPass("");
-      alert("Profile Updated");
+      setShowLoader(false);
+      setMessage("Profile Updated");
     }
   };
 
@@ -214,9 +219,15 @@ const EditStudentPersonalInfo = (props) => {
                     onChange={(e) => setCheckPass(e.target.value)}
                   />
 
-                  <p style={{ color: "red", fontWeight: "bolder" }}>
-                    {message}
-                  </p>
+                  {showLoader ? (
+                    <>
+                      <EditProfileLoader></EditProfileLoader>
+                    </>
+                  ) : (
+                    <p style={{ color: "red", fontWeight: "bolder" }}>
+                      {message}
+                    </p>
+                  )}
                 </div>
               </form>
             </div>

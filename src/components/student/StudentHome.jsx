@@ -3,14 +3,18 @@ import { useParams } from "react-router-dom";
 import { v4 as uuid } from "uuid";
 import StudentNavbar from "./StudentNavbar";
 import ProjectDetails from "../ProjectDetails";
+import Loader from "../Loader";
 const StudentHome = () => {
-  var i = 1;
+  var row = 1;
   const param = useParams();
 
   const [project, setProject] = useState([]);
   const [listProject, setListProject] = useState([]);
   const [filter, setFilter] = useState("");
+  const [showLoader, setShowLoader] = useState(true);
   const getProject = async () => {
+    setShowLoader(true);
+
     const respone = await fetch(
       `http://localhost:5000/getprojectlist/student/${param.id}`,
       {
@@ -19,9 +23,11 @@ const StudentHome = () => {
         },
       }
     );
+
     const data = await respone.json();
     setProject(data);
     setListProject(data);
+    setShowLoader(false);
   };
 
   useEffect(() => {
@@ -43,6 +49,7 @@ const StudentHome = () => {
         collegeCode={param.collegeCode}
         dname={param.dname}
       ></StudentNavbar>
+
       <div className="background">
         <div className="container-content">
           <ul className=" row g-3 container-box" type="none">
@@ -104,35 +111,39 @@ const StudentHome = () => {
         </div>
       </div>
 
-      <table className="table">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">PROJECT NAME</th>
-            <th scope="col">Project discreption</th>
-            <th scope="col">Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          {listProject.map((elem) => {
-            return (
-              <tr key={uuid()}>
-                <td scope="row">{i++}</td>
-                <td scope="col">{elem.projectName}</td>
-                <td scope="col">{elem.description}</td>
-                <td> {elem.status}</td>
-                <td scope="col">
-                  <ProjectDetails
-                    info={{ ...elem }}
-                    from="student"
-                    getData={getProject}
-                  />
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+      {!showLoader ? (
+        <table className="table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">PROJECT NAME</th>
+              <th scope="col">Project discreption</th>
+              <th scope="col">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {listProject.map((elem) => {
+              return (
+                <tr key={uuid()}>
+                  <td scope="row">{row++}</td>
+                  <td scope="col">{elem.projectName}</td>
+                  <td scope="col">{elem.description}</td>
+                  <td> {elem.status}</td>
+                  <td scope="col">
+                    <ProjectDetails
+                      info={{ ...elem }}
+                      from="student"
+                      getData={getProject}
+                    />
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      ) : (
+        <Loader className=""></Loader>
+      )}
     </>
   );
 };

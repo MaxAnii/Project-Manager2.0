@@ -4,10 +4,12 @@
     padding: 1.5vh;
 }
 .project-form{
-    padding: 5%;
+    padding: 10%;
     background-color: #c5d3de ;
-    
+ 
+   height: fit-content;
 }
 label{
     color: black;
 }
+
