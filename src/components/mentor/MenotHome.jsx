@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { NavLink, useParams } from "react-router-dom";
-
+import Loader from "../Loader";
 import { v4 as uuid } from "uuid";
 import MentorNavbar from "./MentorNavbar";
 import ProjectDetaials from "../ProjectDetails";
@@ -12,8 +12,9 @@ const MentorHome = () => {
   const [listProject, setListProject] = useState([]);
   const [filter, setFilter] = useState("");
   const [nameFilter, setNameFilter] = useState("");
-
+  const [showLoader, setShowLoader] = useState(false);
   const getProject = async () => {
+    setShowLoader(true);
     const respone = await fetch(
       `http://localhost:5000/getprojectlist/mentor/${param.id}`,
       {
@@ -25,6 +26,9 @@ const MentorHome = () => {
     const data = await respone.json();
     setProject(data);
     setListProject(data);
+    setTimeout(() => {
+      setShowLoader(false);
+    }, 1500);
   };
   useEffect(() => {
     getProject();
@@ -126,37 +130,41 @@ const MentorHome = () => {
           ></input>
         </div>
       </div>
-      <table className="table">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">PROJECT NAME</th>
-            <th scope="col">Project discreption</th>
-            <th scope="col">Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          {listProject.map((elem) => {
-            return (
-              <tr key={uuid()}>
-                <td scope="row">{row++}</td>
+      {showLoader ? (
+        <Loader></Loader>
+      ) : (
+        <table className="table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">PROJECT NAME</th>
+              <th scope="col">Project discreption</th>
+              <th scope="col">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {listProject.map((elem) => {
+              return (
+                <tr key={uuid()}>
+                  <td scope="row">{row++}</td>
 
-                <td scope="col">{elem.projectName}</td>
-                <td scope="col">{elem.description}</td>
-                <td scope="col">{elem.status}</td>
-                <td>
-                  {" "}
-                  <ProjectDetaials
-                    info={{ ...elem }}
-                    from="mentor"
-                    getData={getProject}
-                  ></ProjectDetaials>
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+                  <td scope="col">{elem.projectName}</td>
+                  <td scope="col">{elem.description}</td>
+                  <td scope="col">{elem.status}</td>
+                  <td>
+                    {" "}
+                    <ProjectDetaials
+                      info={{ ...elem }}
+                      from="mentor"
+                      getData={getProject}
+                    ></ProjectDetaials>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      )}
     </>
   );
 };

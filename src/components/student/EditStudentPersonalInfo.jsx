@@ -1,6 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import EditProfileLoader from "../EditProfileLoader";
+
+import Loader from "../Loader";
 
 const EditStudentPersonalInfo = (props) => {
   const [userData, setUserData] = useState({});
@@ -94,7 +95,8 @@ const EditStudentPersonalInfo = (props) => {
               </h1>
               <button
                 type="button"
-                className="btn-close"
+                onClick={() => setMessage("")}
+                className="btn-close modal-close-btn p-3 m-2"
                 data-bs-dismiss="modal"
                 aria-label="Close"
               ></button>
@@ -221,7 +223,7 @@ const EditStudentPersonalInfo = (props) => {
 
                   {showLoader ? (
                     <>
-                      <EditProfileLoader></EditProfileLoader>
+                      <Loader className="edit-profile-loader"></Loader>
                     </>
                   ) : (
                     <p style={{ color: "red", fontWeight: "bolder" }}>
@@ -236,6 +238,7 @@ const EditStudentPersonalInfo = (props) => {
                 type="button"
                 className="btn btn-secondary"
                 data-bs-dismiss="modal"
+                onClick={() => setMessage("")}
               >
                 Close
               </button>

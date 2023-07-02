@@ -27,7 +27,9 @@ const StudentHome = () => {
     const data = await respone.json();
     setProject(data);
     setListProject(data);
-    setShowLoader(false);
+    setTimeout(() => {
+      setShowLoader(false);
+    }, 1500);
   };
 
   useEffect(() => {

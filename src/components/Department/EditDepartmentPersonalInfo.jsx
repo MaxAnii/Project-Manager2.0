@@ -1,5 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
+import Loader from "../Loader";
 const EditDepartmentPersonalInfo = (props) => {
   const [userData, setUserData] = useState({});
   const [oldPass, setOldPass] = useState("");
@@ -7,6 +8,7 @@ const EditDepartmentPersonalInfo = (props) => {
   const [message, setMessage] = useState("");
   const [showPass, setShowPass] = useState(false);
   const [newpass, setNewPass] = useState("");
+  const [showLoader, setShowLoader] = useState(false);
   useEffect(() => {
     setUserData({ ...props.userinfo });
     setOldPass(props.userinfo.password);
@@ -43,7 +45,8 @@ const EditDepartmentPersonalInfo = (props) => {
     } else if (checkPass !== oldPass) {
       setMessage("Incorrect Password");
     } else {
-      setMessage("Updating INfo");
+      setMessage("Updating profile");
+      setShowLoader(true);
 
       const data = await fetch(
         "http://localhost:5000/updatepersonalinformation/department",
@@ -57,10 +60,10 @@ const EditDepartmentPersonalInfo = (props) => {
           body: JSON.stringify(userData),
         }
       );
-      props.getData();
-      setMessage("");
+
       setCheckPass("");
-      alert("information Updated");
+      setMessage("Profile updated");
+      setShowLoader(false);
     }
   };
 
@@ -95,6 +98,10 @@ const EditDepartmentPersonalInfo = (props) => {
                 className="btn-close"
                 data-bs-dismiss="modal"
                 aria-label="Close"
+                onClick={() => {
+                  setMessage("");
+                  props.getData();
+                }}
               ></button>
             </div>
 
@@ -211,7 +218,11 @@ const EditDepartmentPersonalInfo = (props) => {
                     value={checkPass}
                     onChange={(e) => setCheckPass(e.target.value)}
                   />
-
+                  {showLoader ? (
+                    <Loader className="edit-profile-loader"></Loader>
+                  ) : (
+                    ""
+                  )}
                   <p style={{ color: "red", fontWeight: "bolder" }}>
                     {message}
                   </p>
@@ -223,6 +234,10 @@ const EditDepartmentPersonalInfo = (props) => {
                 type="button"
                 className="btn btn-secondary"
                 data-bs-dismiss="modal"
+                onClick={() => {
+                  setMessage("");
+                  props.getData();
+                }}
               >
                 Close
               </button>

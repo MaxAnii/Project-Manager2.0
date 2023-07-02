@@ -6,7 +6,6 @@ import { useEffect } from "react";
 import { v4 } from "uuid";
 import UploadReport from "./UploadReport";
 import GetReport from "./GetReport";
-import Loader from "./Loader";
 
 const ProjectDetails = (props) => {
   const [ProjectDetails, setProjectDetails] = useState({
@@ -35,7 +34,6 @@ const ProjectDetails = (props) => {
       }
     );
     const data = await respone.json();
-
     setProjectMember(data);
     setShowLoader(false);
   };
@@ -50,7 +48,6 @@ const ProjectDetails = (props) => {
       status: newStatus,
       reason: rejectReason,
     };
-
     await fetch(`http://localhost:5000/updateprojectstatus/notfinalize`, {
       method: "PUT",
       headers: {
@@ -62,7 +59,7 @@ const ProjectDetails = (props) => {
     });
     props.getData();
   };
-  const finalizeProject = () => {
+  const finalizeProject = async () => {
     let day = new Date().getDate();
     let month = new Date().getMonth();
     let year = new Date().getFullYear();
@@ -71,7 +68,7 @@ const ProjectDetails = (props) => {
       id: ProjectDetails.id,
       status: "Finalized",
     };
-    fetch(`http://localhost:5000/updateprojectstatus/finalize`, {
+    await fetch(`http://localhost:5000/updateprojectstatus/finalize`, {
       method: "PUT",
       headers: {
         JToken: localStorage.getItem("JToken"),
@@ -80,15 +77,17 @@ const ProjectDetails = (props) => {
       },
       body: JSON.stringify(finalizeDate),
     });
+    props.getData();
   };
-  const deleteProject = () => {
+  const deleteProject = async () => {
     setdeleteReport(true);
-    fetch(`http://localhost:5000/deleteproject/${ProjectDetails.id}`, {
+    await fetch(`http://localhost:5000/deleteproject/${ProjectDetails.id}`, {
       method: "DELETE",
       headers: {
         JToken: localStorage.getItem("JToken"),
       },
     });
+
     props.getData();
   };
 
@@ -103,8 +102,16 @@ const ProjectDetails = (props) => {
         See Details
       </button>
 
-      <div className="modal fade" id={`myModal${ProjectDetails.id}`}>
-        <div className="modal-dialog modal-fullscreen">
+      <div
+        className="modal fade"
+        id={`myModal${ProjectDetails.id}`}
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+        tabIndex="-1"
+        aria-labelledby="staticBackdropLabel"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog modal-xl  modal-dialog-centered modal-dialog-scrollable">
           <div className="modal-content">
             <div className="modal-header ">
               <h5 className="modal-title">Project Details</h5>

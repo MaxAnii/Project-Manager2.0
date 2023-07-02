@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import UpdateMentorInformation from "./UpdateMentorInformation";
 import DepartmentNavbar from "./DepartmentNavbar";
 import { v4 } from "uuid";
+import Loader from "../Loader";
 const DepartmentHome = () => {
   var i = 1;
   const param = useParams();
@@ -21,8 +22,9 @@ const DepartmentHome = () => {
   });
 
   const [prof, setprof] = useState([]);
-
+  const [showLoader, setShowLoader] = useState(false);
   const getData = async () => {
+    setShowLoader(true);
     const response = await fetch(
       `http://localhost:5000/getInformationDashBoard/department/${param.collegeCode}/${param.dname}`,
       {
@@ -33,6 +35,7 @@ const DepartmentHome = () => {
     );
     const data = await response.json();
     setprof(data);
+    setShowLoader(false);
   };
   useEffect(() => {
     getData();
@@ -132,50 +135,52 @@ const DepartmentHome = () => {
           </form>
         </div>
       </div>
-      <table className="table">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
+      {showLoader ? (
+        <Loader></Loader>
+      ) : (
+        <table className="table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
 
-            <th scope="col">Professor</th>
-            <th scope="col">Email</th>
-          </tr>
-        </thead>
-        <tbody>
-          {prof.map((elem) => {
-            return (
-              <tr key={elem.id}>
-                <th scope="row">{i++}</th>
+              <th scope="col">Professor</th>
+              <th scope="col">Email</th>
+              <th scope="col"></th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+            {prof.map((elem) => {
+              return (
+                <tr key={elem.id}>
+                  <th scope="row">{i++}</th>
 
-                <td scope="col">{elem.name}</td>
-                <td scope="col">{elem.email}</td>
-                <td scope="col">
-                  <button
-                    className="btn btn-dark mb-3"
-                    onClick={() =>
-                      navigate(
-                        `/DepartmentHome/${param.id}/${param.collegeCode}/${param.dname}/mentorprojectlist/${elem.id}`
-                      )
-                    }
-                  >
-                    See Details
-                  </button>
-                </td>
-                <td scope="col">
-                  {" "}
-                  <UpdateMentorInformation
-                    id={elem.id}
-                    name={elem.name}
-                    profid={elem.profId}
-                    email={elem.email}
-                    getData={getData}
-                  ></UpdateMentorInformation>
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+                  <td scope="col">
+                    <NavLink
+                      to={`/DepartmentHome/${param.id}/${param.collegeCode}/${param.dname}/mentorprojectlist/${elem.id}`}
+                      style={{ color: "black", textDecoration: "underline" }}
+                    >
+                      {elem.name}
+                    </NavLink>
+                  </td>
+                  <td scope="col">{elem.email}</td>
+                  <td scope="col"></td>
+                  <td scope="col">
+                    {" "}
+                    <UpdateMentorInformation
+                      id={elem.id}
+                      name={elem.name}
+                      profid={elem.profId}
+                      email={elem.email}
+                      getData={getData}
+                    ></UpdateMentorInformation>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      )}
     </>
   );
 };

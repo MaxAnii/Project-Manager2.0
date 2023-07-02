@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import Footer from "../Footer";
 import StudentNavbar from "./StudentNavbar";
 import EditStudentPersonalInfo from "./EditStudentPersonalInfo";
-import PorfileLoader from "../PorfileLoader";
+import Loader from "../Loader";
 const StudentPersonalInfo = () => {
   const param = useParams();
 
@@ -39,7 +39,7 @@ const StudentPersonalInfo = () => {
         <div className="info1">
           <div className="row g-1">
             {showLoader ? (
-              <PorfileLoader></PorfileLoader>
+              <Loader className="profile-loader"></Loader>
             ) : (
               <>
                 <div className="col-12">

@@ -1,5 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
+import Loader from "../Loader";
 const EditMentorPersonalInfo = (props) => {
   const [userData, setUserData] = useState({});
   const [oldPass, setOldPass] = useState("");
@@ -7,6 +8,7 @@ const EditMentorPersonalInfo = (props) => {
   const [message, setMessage] = useState("");
   const [showPass, setShowPass] = useState(false);
   const [newpass, setNewPass] = useState("");
+  const [showLoader, setShowLoader] = useState(false);
   useEffect(() => {
     setUserData({ ...props.userinfo });
     setOldPass(props.userinfo.password);
@@ -43,8 +45,8 @@ const EditMentorPersonalInfo = (props) => {
     } else if (checkPass !== oldPass) {
       setMessage("Incorrect Password");
     } else {
-      setMessage("Updating Information");
-
+      setMessage("Updating profile");
+      setShowLoader(true);
       await fetch("http://localhost:5000/updatepersonalinformation/mentor", {
         method: "PUT",
         headers: {
@@ -54,10 +56,10 @@ const EditMentorPersonalInfo = (props) => {
         },
         body: JSON.stringify(userData),
       });
-      props.getData();
+
       setCheckPass("");
-      setMessage("");
-      alert("Information Updated");
+      setMessage("Profile updated");
+      setShowLoader(false);
     }
   };
 
@@ -89,7 +91,11 @@ const EditMentorPersonalInfo = (props) => {
               </h1>
               <button
                 type="button"
-                className="btn-close"
+                onClick={() => {
+                  setMessage("");
+                  props.getData();
+                }}
+                className="btn-close modal-close-btn p-3 m-2"
                 data-bs-dismiss="modal"
                 aria-label="Close"
               ></button>
@@ -208,7 +214,11 @@ const EditMentorPersonalInfo = (props) => {
                     value={checkPass}
                     onChange={(e) => setCheckPass(e.target.value)}
                   />
-
+                  {showLoader ? (
+                    <Loader className="edit-profile-loader"></Loader>
+                  ) : (
+                    ""
+                  )}
                   <p style={{ color: "red", fontWeight: "bolder" }}>
                     {message}
                   </p>
@@ -220,6 +230,10 @@ const EditMentorPersonalInfo = (props) => {
                 type="button"
                 className="btn btn-secondary"
                 data-bs-dismiss="modal"
+                onClick={() => {
+                  setMessage("");
+                  props.getData();
+                }}
               >
                 Close
               </button>

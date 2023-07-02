@@ -1,4 +1,5 @@
 import React from "react";
+import Loader from "../Loader";
 import { useState, useEffect } from "react";
 const EditAdminPersonalInfo = (props) => {
   const [userData, setUserData] = useState({});
@@ -7,6 +8,7 @@ const EditAdminPersonalInfo = (props) => {
   const [message, setMessage] = useState("");
   const [showPass, setShowPass] = useState(false);
   const [newpass, setNewPass] = useState("");
+  const [showLoader, setShowLoader] = useState(false);
   useEffect(() => {
     setUserData({ ...props.userinfo });
     setOldPass(props.userinfo.password);
@@ -43,7 +45,8 @@ const EditAdminPersonalInfo = (props) => {
     } else if (checkPass !== oldPass) {
       setMessage("Incorrect Password");
     } else {
-      setMessage("Updating Info");
+      setMessage("Updating profile");
+      setShowLoader(true);
 
       await fetch("http://localhost:5000/updatepersonalinformation/admin", {
         method: "PUT",
@@ -54,10 +57,10 @@ const EditAdminPersonalInfo = (props) => {
         },
         body: JSON.stringify(userData),
       });
-      props.getdata();
+
       setCheckPass("");
-      setMessage("");
-      alert("Updated");
+      setMessage("Profile updated");
+      setShowLoader(false);
     }
   };
 
@@ -92,6 +95,10 @@ const EditAdminPersonalInfo = (props) => {
                 className="btn-close"
                 data-bs-dismiss="modal"
                 aria-label="Close"
+                onClick={() => {
+                  setMessage("");
+                  props.getData();
+                }}
               ></button>
             </div>
 
@@ -195,7 +202,11 @@ const EditAdminPersonalInfo = (props) => {
                     value={checkPass}
                     onChange={(e) => setCheckPass(e.target.value)}
                   />
-
+                  {showLoader ? (
+                    <Loader className="edit-profile-loader"></Loader>
+                  ) : (
+                    ""
+                  )}
                   <p style={{ color: "red", fontWeight: "bolder" }}>
                     {message}
                   </p>
@@ -207,6 +218,10 @@ const EditAdminPersonalInfo = (props) => {
                 type="button"
                 className="btn btn-secondary"
                 data-bs-dismiss="modal"
+                onClick={() => {
+                  setMessage("");
+                  props.getData();
+                }}
               >
                 Close
               </button>

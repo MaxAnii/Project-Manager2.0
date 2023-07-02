@@ -4,7 +4,9 @@ import { useState } from "react";
 import UpdateDepartmentInfo from "./UpdateDepartmentInfo";
 import { v4 as uuid } from "uuid";
 import AdminNavbar from "./AdminNavbar";
+import Loader from "../Loader";
 import "./admin.css";
+import { NavLink } from "react-router-dom";
 
 const AdminHome = () => {
   const navigate = useNavigate();
@@ -22,12 +24,13 @@ const AdminHome = () => {
     id: uuid().slice(0, 20),
   });
   const [departmentDetails, setDepartmentDetails] = useState([]);
-
+  const [showLoader, setShowLoader] = useState(false);
   useEffect(() => {
     getData();
   }, []);
 
   const getData = async () => {
+    setShowLoader(true);
     const response = await fetch(
       `http://localhost:5000/getInformationDashBoard/College Admin/${param.collegeCode}`,
       {
@@ -39,6 +42,7 @@ const AdminHome = () => {
 
     const data = await response.json();
     setDepartmentDetails(data);
+    setShowLoader(false);
   };
 
   const addNewDepartment = async (e) => {
@@ -155,47 +159,50 @@ const AdminHome = () => {
           </form>
         </div>
       </div>
-      <table className="table">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Department</th>
-            <th scope="col">HOD Name</th>
-            <th></th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          {departmentDetails.map((elem) => {
-            return (
-              <tr key={elem.id}>
-                <th scope="row">{row++}</th>
-                <th scope="col">{elem.dname}</th>
-                <td scope="col">{elem.name}</td>
+      {showLoader ? (
+        <Loader></Loader>
+      ) : (
+        <table className="table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Department</th>
+              <th scope="col">HOD Name</th>
+              <th></th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {departmentDetails.map((elem) => {
+              return (
+                <tr key={elem.id}>
+                  <th scope="row">{row++}</th>
+                  <th scope="col">
+                    <NavLink
+                      to={`/AdminHome/${param.id}/${param.collegeCode}/departmentInfo/${elem.dname}`}
+                      style={{ color: "black", textDecoration: "underline" }}
+                    >
+                      {elem.dname}
+                    </NavLink>
+                  </th>
+                  <td scope="col">{elem.name}</td>
 
-                <td scope="col">
-                  <button
-                    className="btn btn-dark mb-3"
-                    onClick={() => seeDetails(elem.dname)}
-                  >
-                    See Details
-                  </button>
-                </td>
-                <td scope="col">
-                  <UpdateDepartmentInfo
-                    id={elem.id}
-                    hodid={elem.hodid}
-                    name={elem.name}
-                    department={elem.dname}
-                    email={elem.email}
-                    getData={getData}
-                  ></UpdateDepartmentInfo>
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+                  <td scope="col">
+                    <UpdateDepartmentInfo
+                      id={elem.id}
+                      hodid={elem.hodid}
+                      name={elem.name}
+                      department={elem.dname}
+                      email={elem.email}
+                      getData={getData}
+                    ></UpdateDepartmentInfo>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      )}
     </>
   );
 };
