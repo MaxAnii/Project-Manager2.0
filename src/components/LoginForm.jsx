@@ -3,10 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 
 const LoginForm = () => {
-
   // localStorage.removeItem('JToken')
-  localStorage.removeItem('Acces')
-
+  localStorage.removeItem("Acces");
 
   const navigate = useNavigate();
 
@@ -18,32 +16,27 @@ const LoginForm = () => {
   });
 
   const [error, setError] = useState("");
-const [show,setShow] = useState(false);
+  const [show, setShow] = useState(false);
 
   const login = async (e) => {
     e.preventDefault();
     setError("");
     setShow(false);
-    const response = await fetch(
-      `http://localhost:5000/login`,
-      { 
-         withCredentials: true,
-        method:"POST",
-        headers:{
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body:JSON.stringify(loginInfo),
-      }
-    
-    );
+    const response = await fetch(`http://localhost:5000/login`, {
+      withCredentials: true,
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(loginInfo),
+    });
 
     const data = await response.json();
-   
+
     if (data.length !== 0) {
-      
-         localStorage.setItem("JToken", data.JToken);
-      localStorage.setItem("Acces",true);
+      localStorage.setItem("JToken", data.JToken);
+      localStorage.setItem("Acces", true);
       if (loginInfo.desgination === "College Admin")
         navigate(`/AdminHome/${data.id}/${data.collegeCode}`);
       else if (loginInfo.desgination === "HOD")
@@ -53,7 +46,7 @@ const [show,setShow] = useState(false);
       else if (loginInfo.desgination === "Professor")
         navigate(`/MentorHome/${data.id}/${data.collegeCode}/${data.dname}`);
       else
-      navigate(`/StudentHome/${data.id}/${data.collegeCode}/${data.dname}`)
+        navigate(`/StudentHome/${data.id}/${data.collegeCode}/${data.dname}`);
     } else {
       setError("Details Not Exist");
       setShow(true);
@@ -62,32 +55,32 @@ const [show,setShow] = useState(false);
 
   return (
     <>
-      <div className="container">
-      
-      </div>
+      <div className="container"></div>
 
       <div className="form">
-        <div style={{ color: "red" }}>
+        <div style={{ color: "white", textAlign: "center" }}>
           <h3>{error}</h3>
         </div>
         <form onSubmit={login}>
-        <div className="mb-3 ">
-              <label className="form-label">Desgination</label>
-              <select
-                className="form-select"
-                value={loginInfo.desgination}
-                onChange={(e) => {
-                  setLoginInfo({ ...loginInfo, desgination: e.target.value });
-                }}
-                required
-              >
-                <option defaultValue value="">Choose Your Desgination</option>
-                <option>Student</option>
-                <option>Professor</option>
-                <option>HOD</option>
-                <option>College Admin</option>
-              </select>
-            </div>
+          <div className="mb-3 ">
+            <label className="form-label">Desgination</label>
+            <select
+              className="form-select"
+              value={loginInfo.desgination}
+              onChange={(e) => {
+                setLoginInfo({ ...loginInfo, desgination: e.target.value });
+              }}
+              required
+            >
+              <option defaultValue value="">
+                Choose Your Desgination
+              </option>
+              <option>Student</option>
+              <option>Professor</option>
+              <option>HOD</option>
+              <option>College Admin</option>
+            </select>
+          </div>
           <div className="contact-box  ">
             <div className="mb-3 ">
               <label className="form-label">College Code</label>
@@ -132,13 +125,21 @@ const [show,setShow] = useState(false);
                 }}
               />
             </div>
-           <div className="forgot-container">
-
-            <button type="submit" className="btn btn-dark toggle-disabled login-btn">
-              Login
-            </button>
-             { show? <NavLink to='/forgot_password' className="forgot-password">Forgot Password?</NavLink> :""}
-           </div>
+            <div className="forgot-container">
+              <button
+                type="submit"
+                className="btn btn-dark toggle-disabled login-btn"
+              >
+                Login
+              </button>
+              {show ? (
+                <NavLink to="/forgot_password" className="forgot-password">
+                  Forgot Password?
+                </NavLink>
+              ) : (
+                ""
+              )}
+            </div>
           </div>
         </form>
       </div>

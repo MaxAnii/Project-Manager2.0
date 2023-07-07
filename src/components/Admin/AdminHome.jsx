@@ -104,7 +104,7 @@ const AdminHome = () => {
               <input
                 type="text"
                 className="form-control"
-                placeholder="HOD Id"
+                placeholder="Department Id"
                 value={newHodDetails.hodid}
                 onChange={(e) => {
                   setnewHodDetails({ ...newHodDetails, hodid: e.target.value });

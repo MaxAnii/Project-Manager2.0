@@ -52,7 +52,7 @@ const UpdateDepartmentInfo = (props) => {
               </h1>
               <button
                 type="button"
-                className="btn-close"
+                className="btn-close modal-close-btn p-3 m-2"
                 data-bs-dismiss="modal"
                 aria-label="Close"
               ></button>

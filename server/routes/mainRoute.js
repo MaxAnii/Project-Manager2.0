@@ -37,7 +37,10 @@ const {
 } = require("../controllers/projectReport");
 const { upload } = require("../config/s3");
 
-router.post("/signup/checkdetailsexist/:type", checkUserDetailsAlreadyExist);
+router.get(
+  "/checkuserdetialsexits/:cc/:email/:type",
+  checkUserDetailsAlreadyExist
+);
 router.post("/signUp", newUserSignUp);
 router.get(
   "/getDepartmentList/collegeName/:collegeCode",
@@ -78,8 +81,8 @@ router.put(
   updatePersonalInformation
 );
 
-router.post("/getforgotpasswordemail", verifyjwt, forgetPasswordMail);
-router.post("/updateyourpassword", verifyjwt, updatePassword);
+router.post("/getforgotpasswordemail", forgetPasswordMail);
+router.post("/updateyourpassword", updatePassword);
 
 router.post("/uploadreportdetails", verifyjwt, setReportDetails);
 router.get("/getreportdetails/:projectId", verifyjwt, getReportDetails);

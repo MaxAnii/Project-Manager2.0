@@ -50,36 +50,13 @@ const UploadReport = (props) => {
           name: "",
           reportId: v4(),
         });
-        setShowLoader(false);
       }
     }
+    setShowLoader(false);
   };
 
   return (
     <div>
-      {/* <form onSubmit={uploadReport}> */}
-      {/* <div className="col-md-6">
-          <input
-            type="text"
-            className="form-control"
-            placeholder="enter the file name"
-            value={reportDetails.name}
-            onChange={(e) =>
-              setReportDetails({ ...reportDetails, name: e.target.value })
-            }
-            required
-          ></input>
-        </div>
-
-        <div className="col-md-6">
-          <input
-            type="file"
-            className="form-control "
-            id="inputGroupFile02"
-            required
-            onChange={(e) => setReport(e.target.files[0])}
-          />
-        </div> */}
       <form className="row g-3 FormContainer" onSubmit={uploadReport}>
         <div className="col-md-5">
           <input
