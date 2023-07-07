@@ -17,8 +17,9 @@ const LoginForm = () => {
 
   const [error, setError] = useState("");
   const [show, setShow] = useState(false);
-
+  const [showLoader, setShowLoader] = useState(false);
   const login = async (e) => {
+    setShowLoader(true);
     e.preventDefault();
     setError("");
     setShow(false);
@@ -51,6 +52,7 @@ const LoginForm = () => {
       setError("Details Not Exist");
       setShow(true);
     }
+    setShowLoader(false);
   };
 
   return (
@@ -126,12 +128,23 @@ const LoginForm = () => {
               />
             </div>
             <div className="forgot-container">
-              <button
-                type="submit"
-                className="btn btn-dark toggle-disabled login-btn"
-              >
-                Login
-              </button>
+              {showLoader ? (
+                <button className="btn btn-primary" type="button" disabled>
+                  <span
+                    className="spinner-grow spinner-grow-sm"
+                    role="status"
+                    aria-hidden="true"
+                  ></span>
+                  Loading...
+                </button>
+              ) : (
+                <button
+                  type="submit"
+                  className="btn btn-dark toggle-disabled login-btn"
+                >
+                  Login
+                </button>
+              )}
               {show ? (
                 <NavLink to="/forgot_password" className="forgot-password">
                   Forgot Password?

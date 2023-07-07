@@ -24,6 +24,7 @@ const SignUp = () => {
   const [condition, setCondition] = useState({
     password: "",
   });
+  const [showLoader, setShowLoader] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [show, setShow] = useState(false);
   const [departmaent, setDepartment] = useState([]);
@@ -62,6 +63,7 @@ const SignUp = () => {
 
   const register = async (e) => {
     e.preventDefault();
+    setShowLoader(true);
     setErrorMessage("");
     await checkDetialsExits();
 
@@ -100,6 +102,7 @@ const SignUp = () => {
           );
       }
     }
+    setShowLoader(false);
   };
 
   return (
@@ -282,9 +285,20 @@ const SignUp = () => {
               {errorMessage}{" "}
             </div>
 
-            <button type="submit" className="btn btn-dark toggle-disabled ">
-              SignUp
-            </button>
+            {showLoader ? (
+              <button className="btn btn-primary" type="button" disabled>
+                <span
+                  className="spinner-grow spinner-grow-sm"
+                  role="status"
+                  aria-hidden="true"
+                ></span>
+                Loading...
+              </button>
+            ) : (
+              <button type="submit" className="btn btn-dark toggle-disabled ">
+                SignUp
+              </button>
+            )}
           </div>
         </form>
       </div>
