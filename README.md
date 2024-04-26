@@ -71,11 +71,11 @@ The project is divided into two folders:
 
 To get started with Project Harbour, follow these steps:
 
-1. **Clone the repository:**
+1. ### Clone the repository:
    ```bash
    git clone  https://github.com/MaxAnii/ProjectHarbor.git
 
-2. **Install dependencies:**
+2. ### Install dependencies: 
  
   ```bash
   cd ProjectHarbor/client
@@ -90,7 +90,8 @@ To get started with Project Harbour, follow these steps:
   npm install
 ```
 
-3. **Set up environment variables:**
+3. ### Set up environment variables:
+
 Create a .env file in the server folder and add the necessary environment variables for database, S3, and Nodemailer configurations.
  #### Database
 
@@ -118,10 +119,18 @@ Create a .env file in the server folder and add the necessary environment variab
   - `REGION`: AWS region.
   - `BUCKET`: S3 bucket name.
 
-Additionally, if you're using a service account key for authentication (for example, with Google Cloud Storage), use:
+- Additionally, if you're using a service account key for authentication (for example, with Google Cloud Storage), use:
 - `jsonKey`: JSON key for authentication.
 
-  4. **Run the application:**
+4. ### Create Database Schema:
+
+- Before running the application, create the database schema.
+- You can find the SQL schema file at `server/schema/db.sql`.
+- Execute the SQL commands in your database management tool to create the necessary tables.
+
+
+
+5. ### Run the application:
 
 To run the application, follow these steps:
 
@@ -129,18 +138,15 @@ To run the application, follow these steps:
 
 ```bash
 cd client
-```
-```bash
 npm run dev
 ```
 #### Start the Backend
 
 ```bash
 cd server
-```
-```bash
 node index
 ```
+
 ## Support
 
 By [Ansar](https://github.com/MaxAnii) with ❤️.
