@@ -1,8 +1,8 @@
-# Project Harbour
+# Project Harbor
 ![Screenshot 2024-04-26 184418](https://github.com/MaxAnii/ProjectHarbor/assets/96937469/47cee345-043d-488a-8268-db8ffbd6fd24)
 
 
-Project Harbour is a comprehensive Project Management System designed to streamline the management and review process of student projects in engineering colleges. The system facilitates collaboration between students and professors, ensuring project success through efficient workflow and real-time updates.
+Project Harbor is a comprehensive Project Management System designed to streamline the management and review process of student projects in engineering colleges. The system facilitates collaboration between students and professors, ensuring project success through efficient workflow and real-time updates.
 
 ## Project Structure
 
@@ -69,7 +69,7 @@ The project is divided into two folders:
 
 ## Getting Started
 
-To get started with Project Harbour, follow these steps:
+To get started with Project Harbor, follow these steps:
 
 1. ### Clone the repository:
    ```bash
