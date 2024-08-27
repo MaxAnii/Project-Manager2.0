@@ -1,0 +1,8 @@
+{
+  "title": "ProjectHarbor",
+  "description": "This project facilitates efficient project management within a college ecosystem, enabling college administrators, HODs, professors, and students to collaborate seamlessly. It streamlines mentor selection, project approval, and project finalization processes, while also providing hierarchical visibility of ongoing projects tailored to each role.",
+  "banner": "https://projectbanners.s3.eu-north-1.amazonaws.com/projectManager2.png",
+  "github": "https://github.com/MaxAnii/ProjectHarbor/new/master",
+  "projectNumber": 1,
+  "techStack": "React JS, Bootstrap, Node JS, PostgreSQL, Express, S3."
+}
